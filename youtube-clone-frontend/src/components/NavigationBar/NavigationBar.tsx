@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { UserLoggedInStore } from "../../store";
+import { UserLoggedInStore, DisplayExtendedMenuStore } from "../../store";
 
 import styles from "./NavigationBarStyles.module.css";
 
@@ -9,26 +10,32 @@ import fakeYoutubeCloneLetters from "../../images/youtube clone.svg";
 import menuIcon from "../../images/menu.svg";
 import searchIcon from "../../images/search icon.svg";
 import accountCircle from "../../images/account circle.svg";
-import addIcon from "../../images/add.svg";
+import uploadIcon from "../../images/upload.svg";
 
 function NavigationBar() {
     const userLoggedIn = UserLoggedInStore((state) => state.value);
-    
+
+    const displayExtendedMenu = DisplayExtendedMenuStore((state) => state.value);
+
     const [searching, setSearching] = useState(false);
-    
-    
+
+    function menuButtonOnClick() {
+        displayExtendedMenu.setDisplayExtendedMenu(!displayExtendedMenu.data);
+    }
 
     return (
         <div className={styles.navigationBarMain}>
             <div className={styles.leftSection}>
-                <button className={styles.menuButton}>
+                <button className={styles.menuButton} onClick={() => menuButtonOnClick()}>
                     <img src={menuIcon} alt="menu button" />
                 </button>
 
-                <button className={styles.logoButton}>
-                    <img src={fakeYoutubeLogo} alt="fake youtube logo" />
-                    <img src={fakeYoutubeCloneLetters} alt="fake youtube letters" />
-                </button>
+                <Link to={"/"} className={styles.homeLink}>
+                    <button className={styles.logoButton}>
+                        <img src={fakeYoutubeLogo} alt="fake youtube logo" />
+                        <img src={fakeYoutubeCloneLetters} alt="fake youtube letters" />
+                    </button>
+                </Link>
             </div>
             
             <div className={styles.middleSection}>
@@ -41,10 +48,11 @@ function NavigationBar() {
             <div className={styles.rightSection + " " + (userLoggedIn.data ? styles.loggedIn : styles.notLoggedIn)}>
                 {userLoggedIn.data ? 
                 <div className={styles.loggedInBar}>
-                    <button className={styles.createButton}>
-                        <img src={addIcon} alt="Add Icon" />
-                        Create
-                    </button>
+                    <Link to={"/upload-video"} className={styles.uploadVideoButtonLink}>
+                        <button className={styles.uploadVideoButton}>
+                                <img src={uploadIcon} alt="upload video icon" />Upload Video
+                        </button>
+                    </Link>
 
                     <button className={styles.profileIcon}>
                         <img src={accountCircle} alt="Account circle" />

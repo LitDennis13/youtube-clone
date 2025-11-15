@@ -1,3 +1,7 @@
+:root {
+    --createButtonWidth: 125px;
+}
+
 .navigationBarMain {
     width: 100%;
     height: 100%;
@@ -22,7 +26,7 @@ button {
 }
 
 .menuButton {
-    border-radius: 10px;
+    border-radius: 25px;
     height: 60%;
     cursor: pointer;
 }
@@ -39,13 +43,17 @@ button {
     height: 100%;
     width: auto;
 }
-
-.logoButton {
+.homeLink {
     margin-left: 10px;
+    width: 23%;
+    height: auto;
+}
+.logoButton {
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     height: auto;
-    width: 23%;
     cursor: pointer;
 }
 
@@ -121,38 +129,46 @@ button {
     justify-content: end;
     align-items: center;
     padding-right: 15px;
-    column-gap: 5%;
+    column-gap: 7%;
 }
 
-.createButton {
-    height: 75%;
-    width: 30%;
-    border-radius: 25px;
-
+.uploadVideoButtonLink {
+    height: 100%;
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 115%;
-    font-weight: bold;
-    cursor: pointer;
+    text-decoration: none;
+}
 
+.uploadVideoButton {
+    height: 80%;
+    width: 100%;
+    padding: 5%;
+    border-radius: 25px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 120%;
     background-color: rgb(39,39,39);
 }
 
-.createButton:hover {
+.uploadVideoButton:hover {
     background-color: rgb(63,63,63);
 }
 
-.createButton:active {
+.uploadVideoButton:active {
     background-color: rgb(82,82,82);
 }
 
-.createButton > img {
-    
+.uploadVideoButton > img {
+    height: 135%;
+    width: auto;
 }
 
 .profileIcon {
-    width: 15%;
+    width: 17%;
 }
 
 

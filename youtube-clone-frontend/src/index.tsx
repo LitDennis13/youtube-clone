@@ -1,16 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import App from './components/App/App';
+import HomePage from './components/HomePage/HomePage';
+import UploadVideoPage from './components/UploadVideoPage/UploadVideoPage';
+import PageNotFoundPage from './components/PageNotFoundPage/PageNotFoundPage';
+
+import ErrorPage from './components/ErrorPage/ErrorPage';
+
+import reportWebVitals from './reportWebVitals';
+
 import './index.css';
 import "./other/josh-comeau-css-reset.css";
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+
+const router = createBrowserRouter([
+{
+	path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+		{
+			path: "/",
+			element: <HomePage />
+		},
+		{
+		path: "/upload-video",
+		element: <UploadVideoPage />
+		},
+		{
+			path: "*",
+			element: <PageNotFoundPage />
+		}
+	]
+}
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
