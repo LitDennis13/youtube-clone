@@ -4,29 +4,29 @@ import { Link } from "react-router-dom";
 import { PageOptions } from "../../types";
 import { UserLoggedInStore, SelectedPageStore } from "../../store";
 
-import styles from "./HomePageStyles.module.css";
+import styles from "./PlayListsPageStyles.module.css";
 import Globalstyles from "../../GlobalStyles/GlobalStyles.module.css";
 import NavigationBarStyles from "../NavigationBar/NavigationBarStyles.module.css";
 
 import accountCircleBlue from "../../images/account circle blue.svg";
 
-function HomePage() {
+function PlayListsPage() {
     const userLoggedIn = UserLoggedInStore((state) => state.value);
     const selectedPage = SelectedPageStore((state) => state.value);
     
     useEffect(() => {
-        selectedPage.setSelectedPage(PageOptions.Home);
+        selectedPage.setSelectedPage(PageOptions.Playlists);
     }, []);
 
     return <>
         {(userLoggedIn.data ? 
-        <div className={styles.LoggedInHome}>
+        <div className={styles.LoggedInMain}>
             
         </div>    
         : 
         <div className={Globalstyles.notLoggedInMain}>
             <div className={Globalstyles.signInBox}>
-                <h1>Sign in to get your Video feed</h1>
+                <h1>Sign in to see your Playlists</h1>
                 <Link to={"/signin"} className={Globalstyles.signInButtonLink}>
                     <button className={NavigationBarStyles.signInButton}>
                         <img src={accountCircleBlue} alt="Account circle" />
@@ -39,4 +39,4 @@ function HomePage() {
     )}</>;
 }
 
-export default HomePage;
+export default PlayListsPage;

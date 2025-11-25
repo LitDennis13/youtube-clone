@@ -4,7 +4,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from './components/App/App';
 import HomePage from './components/HomePage/HomePage';
-import UploadVideoPage from './components/UploadVideoPage/UploadVideoPage';
+import SubscriptionsPage from './components/SubscriptionsPage/SubscriptionsPage';
+import HistoryPage from './components/HistoryPage/HistoryPage';
+import PlayListsPage from './components/PlayListsPage/PlayListsPage';
+import MyVideosPage from './components/MyVideosPage/MyVideosPage';
+import SignInSignUpPage from './components/LoginPage/SignInSignUpPage';
 import PageNotFoundPage from './components/PageNotFoundPage/PageNotFoundPage';
 
 import ErrorPage from './components/ErrorPage/ErrorPage';
@@ -23,15 +27,31 @@ const router = createBrowserRouter([
     children: [
 		{
 			path: "/",
-			element: <HomePage />
+			element: <HomePage />,
 		},
 		{
-		path: "/upload-video",
-		element: <UploadVideoPage />
+			path: "/subscriptions",
+			element: <SubscriptionsPage />,
+		},
+		{
+			path: "/history",
+			element: <HistoryPage />,
+		},
+		{
+			path: "/playlists",
+			element: <PlayListsPage />,
+		},
+		{
+		path: "/my-videos",
+		element: <MyVideosPage />,
+		},
+		{
+		path: "/signin",
+		element: <SignInSignUpPage />,
 		},
 		{
 			path: "*",
-			element: <PageNotFoundPage />
+			element: <PageNotFoundPage />,
 		}
 	]
 }

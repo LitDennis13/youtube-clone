@@ -1,4 +1,4 @@
-.main {
+.notLoggedInMain {
     height: 100%;
     width: 100%;
     
@@ -7,7 +7,7 @@
     align-items: start;
 }
 
-.notFoundBox {
+.signInBox {
     margin-top: 2%;
     height: 15%;
     width: 50%;
@@ -15,12 +15,18 @@
 
     display: flex;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
-    font-size: 200%;
     row-gap: 15px;
 
     background-color: rgb(33,33,33);
     border-radius: 20px;
     border: 1px solid rgb(63,63,63);
+}
+
+.signInButtonLink {
+    text-decoration: none;
+}
+
+.signInButtonLink > button {
+    color: rgb(92, 164, 248);
 }

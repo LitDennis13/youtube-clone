@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+import { PageOptions } from "./types";
+
 
 type UserLoggedIn = {
     value: {
@@ -10,13 +12,32 @@ type UserLoggedIn = {
 
 export const UserLoggedInStore = create<UserLoggedIn>((set) => ({
     value: {
-        data: true,
+        data: false,
         setUserLoggedIn: (loggedIn: boolean) => {
             set((state) => {
                 state.value.data = loggedIn;
                 return {value: {...state.value}};
             });
         },
+    }
+}));
+
+type SelectedPage = {
+    value: {
+        page: PageOptions,
+        setSelectedPage: (newPage: PageOptions) => void,
+    }
+}
+
+export const SelectedPageStore = create<SelectedPage>((set) => ({
+    value: {
+        page: 0,
+        setSelectedPage: (newPage: PageOptions) => {
+            set((state) => {
+                state.value.page = newPage;
+                return ({value: {...state.value}});
+            })
+        }
     }
 }));
 

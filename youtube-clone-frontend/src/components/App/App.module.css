@@ -5,11 +5,11 @@
     background-color: rgb(15,15,15);
 }
 .normal {
-    grid-template: 6.5% 93.5% / 7.4% 92.6%; 
+    grid-template: 6.5% 93.5% / 5.4% 94.6%; 
 
 }
 .displayExtendedMenu {
-    grid-template: 6.5% 93.5% / 14.4% 85.6%; 
+    grid-template: 6.5% 93.5% / 12.4% 87.6%; 
     
 }
 .appMain * {

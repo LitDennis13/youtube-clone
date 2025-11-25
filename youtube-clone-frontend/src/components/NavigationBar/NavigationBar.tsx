@@ -48,7 +48,7 @@ function NavigationBar() {
             <div className={styles.rightSection + " " + (userLoggedIn.data ? styles.loggedIn : styles.notLoggedIn)}>
                 {userLoggedIn.data ? 
                 <div className={styles.loggedInBar}>
-                    <Link to={"/upload-video"} className={styles.uploadVideoButtonLink}>
+                    <Link to={"/my-videos"} className={styles.uploadVideoButtonLink}>
                         <button className={styles.uploadVideoButton}>
                                 <img src={uploadIcon} alt="upload video icon" />Upload Video
                         </button>
@@ -59,10 +59,12 @@ function NavigationBar() {
                     </button>
                 </div>
                 :
-                <button className={styles.signInButton}>
-                    <img src={accountCircle} alt="Account circle" />
-                    Sign In
-                </button>
+                <Link to={"/signin"} className={styles.signInButtonLink}>
+                    <button className={styles.signInButton}>
+                        <img src={accountCircle} alt="Account circle" />
+                        Sign In
+                    </button>
+                </Link>
                 }
             </div>
 

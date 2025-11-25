@@ -6,40 +6,87 @@
 .menuNormal {
     display: flex;
     flex-flow: column nowrap;
-    row-gap: 2%;
+    row-gap: 1%;
     padding: 0% 5%;
 }
 
-.menuNormal > button {
+.menuNormal > a {
     width: 100%;
     height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.menuNormal > a > button {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    font-size: 80%;
+    white-space: nowrap;
+    font-size: 70%;
     background-color: inherit;
     border-radius: 15px;
 }
-.menuNormal > button > img {
-    width: 50%;
+.menuNormal > a > button > img {
+    width: 40%;
     height: auto;
 }
 
-.menuNormal > button:hover {
+.menuNormal > a > button:hover {
     background-color: rgb(39,39,39);
 }
 
-.menuNormal > button:active {
+.menuNormal > a > button:active {
     background-color: rgb(60,60,60);
 }
 
-.menuNormal > #selected {
-    font-size: 115%;
+.menuNormal > a > #selected {
+    font-size: 75%;
     font-weight: bold;
+}
+
+.menuNormal > a > #selected > img {
+    width: 80%;
 }
 
 
 .menuExtended {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0% 5%;
+}
+
+.menuExtended > a {
+    width: 100%;
+    height: 6%;
+    text-decoration: none;
 
 }
+
+.menuExtended > a > button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: center;
+    column-gap: 10px;
+    border-radius: 15px;
+    font-size: 110%;
+}
+.menuExtended > a > button:hover {
+    background-color: rgb(39,39,39);
+}
+.menuExtended > a > button > img {
+    height: 90%;
+}
+
+.menuExtended > a > #selected {
+    background-color: rgb(61,61,61);
+}
+

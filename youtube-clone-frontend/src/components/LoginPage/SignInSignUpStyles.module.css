@@ -1,0 +1,122 @@
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    width: 35%;
+    
+    margin-bottom: 15%;
+    padding: 0px 10px;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    align-items: center;
+    row-gap: 20px;
+
+    background-color: rgb(39,39,39);
+    border-radius: 20px;
+}
+
+
+
+.main > h1 {
+    font-size: 400%;
+    margin-top: 40px;
+}
+
+.main > input {
+    width: 85%;
+    padding: 0px 15px;
+    font-size: 250%;
+    background-color: rgb(14,14,14);
+    border: none;
+    border-radius: 20px;
+}
+
+
+.main > input:focus {
+    outline: none;
+}
+
+.signInUpButton {
+    width: 50%;
+    font-size: 150%;
+    font-weight: bold;
+    
+    background: rgb(254,51,62);
+    border-radius: 10px;
+    
+}
+
+.signInUpButton:hover {
+    background: rgba(254, 51, 61, 0.802);
+}
+
+.signInUpButton:active {
+    background: rgba(254, 51, 61, 0.602);
+}
+
+.signIn {
+    height: 60%;
+}
+
+.signIn > input {
+    height: 17%;
+}
+
+.signIn > .signInUpButton {
+    height: 11%;
+}
+
+#signUpExtend {
+    height: 75%;
+    margin-bottom: 10%;
+}
+
+.signUp {
+    height: 70%;
+}
+
+
+.signUp > input {
+    height: 13%;
+}
+
+#passwordNotMatchInput {
+    border: 2px solid red;
+}
+
+.signUp > .signInUpButton {
+    height: 9%;
+}
+
+.passwordNotMatch {
+    margin-top: -4%;
+    color: red;
+}
+
+
+.switchPageButton {
+    width: 40%;
+    font-size: 125%;
+    /* border: 2px solid yellow; */
+    text-decoration: underline;
+    transform: scale(1);
+    transition: transform .2s;
+}
+
+.switchPageButton:hover {
+    transform: scale(1.1);
+    transition: transform .2s;
+}
+
+.switchPageButton:active {
+    transform: scale(1.2);
+    transition: transform .2s;
+
+}
