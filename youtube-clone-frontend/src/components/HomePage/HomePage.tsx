@@ -33,7 +33,6 @@ function HomePage() {
                         Sign In
                     </button>
                 </Link>
-
             </div>
         </div>
     )}</>;

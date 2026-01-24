@@ -56,9 +56,6 @@ function LoginPageSignUp() {
             setPasswordsMatch(false);
         }
         else {
-            
-
-
             setUserName("");
             setPassword("");
             setConfirmPassword("");

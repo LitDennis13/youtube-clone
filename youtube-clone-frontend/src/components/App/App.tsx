@@ -8,13 +8,18 @@ import Menu from '../Menu/Menu';
 
 import styles from './App.module.css';
 
+import { fetchOptionsGet } from '../fetchOptions';
 
-
+function test() {
+	fetch("http://localhost:3490", fetchOptionsGet).catch((error) => {
+		console.error(error);
+	});
+}
 
 function App() {
     const displayExtendedMenu = DisplayExtendedMenuStore((state) => state.value);
-	
 
+	test();
 
 	return (
     	<div className={styles.appMain + " " + (displayExtendedMenu.data ? styles.displayExtendedMenu : styles.normal)}>

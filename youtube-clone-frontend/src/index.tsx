@@ -8,7 +8,7 @@ import SubscriptionsPage from './components/SubscriptionsPage/SubscriptionsPage'
 import HistoryPage from './components/HistoryPage/HistoryPage';
 import PlayListsPage from './components/PlayListsPage/PlayListsPage';
 import MyVideosPage from './components/MyVideosPage/MyVideosPage';
-import SignInSignUpPage from './components/LoginPage/SignInSignUpPage';
+import SignInSignUpPage from './components/SignInSignUpPage/SignInSignUpPage';
 import PageNotFoundPage from './components/PageNotFoundPage/PageNotFoundPage';
 
 import ErrorPage from './components/ErrorPage/ErrorPage';
