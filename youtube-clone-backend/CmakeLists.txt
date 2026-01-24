@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 2.8...3.13)
+
+project(output VERSION 1.0 LANGUAGES C CXX)
+
+
+set(SOURCE_FILES
+    "server/server.cpp"
+    "HttpTypes/HttpTypes.cpp"
+    "httpHandler/httpHandler.cpp"
+    "main.cpp"
+)   
+add_executable(output ${SOURCE_FILES})
+
+set_property(TARGET output PROPERTY CXX_STANDARD 23)
