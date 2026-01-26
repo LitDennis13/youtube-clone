@@ -5,8 +5,9 @@
 ### To start the frontend
 * Navigate to the "youtube-clone" folder in the terminal
 * cd into the "youtube-clone-frontend" folder
+* run the command "npm build"
 * run the command "npm start"
-* There should be a local host address displayed
+* There should now be a local host address displayed
 * copy the address and paste into broswer address bar and press enter
 
 ### To start the backend

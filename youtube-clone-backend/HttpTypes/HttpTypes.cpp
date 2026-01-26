@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-std::string toLower(std::string &input) {
+std::string toLower(std::string input) {
     std::string result = "";
     for (char &c : input) {
         if ((int)c >= 65 && (int)c <= 90) {
@@ -16,8 +16,36 @@ std::string toLower(std::string &input) {
     return result;
 }
 
-std::string HttpHeaderToString(HTTPHeader header) {
+std::string httpHeaderToString(HTTPHeader header) {
     switch (header) {
+        case HTTPHeader::Accept: {
+            return "Accept";
+            break;
+        }
+        case HTTPHeader::AcceptEncoding: {
+            return "Accept-Encoding";
+            break;
+        }
+        case HTTPHeader::AcceptLanguage: {
+            return "Accept-Language";
+            break;
+        }
+        case HTTPHeader::AccessControlRequestHeaders: {
+            return "Access-Control-Request-Headers";
+            break;
+        }
+        case HTTPHeader::AccessControlRequestMethod: {
+            return "Access-Control-Request-Method";
+            break;
+        }
+        case HTTPHeader::AccessControlAllowOrigin: {
+            return "Access-Control-Allow-Origin";
+            break;
+        }
+        case HTTPHeader::Connection: {
+            return "Connection";
+            break;
+        }
         case HTTPHeader::ContentType: {
             return "Content-Type";
             break;
@@ -26,18 +54,155 @@ std::string HttpHeaderToString(HTTPHeader header) {
             return "Content-Length";
             break;
         }
-        case HTTPHeader::AccessControlAllowOrigin: {
-            return "Access-Control-Allow-Origin";
+        case HTTPHeader::Host: {
+            return "Host";
             break;
         }
-        case HTTPHeader::AccessControlRequestMethod: {
-            return "Access-Control-Request-Method";
+        case HTTPHeader::Referer: {
+            return "Referer";
+            break;
+        }
+        case HTTPHeader::Origin: {
+            return "Origin";
+            break;
+        }
+        case HTTPHeader::SecChUa: {
+            return "sec-ch-ua";
+            break;
+        }
+        case HTTPHeader::SecChUaPlatform: {
+            return "sec-ch-ua-platform";
+            break;
+        }
+        case HTTPHeader::SecChUaMobile: {
+            return "sec-ch-ua-mobile";
+            break;
+        }
+        case HTTPHeader::SecFetchMode: {
+            return "Sec-Fetch-Mode";
+            break;
+        }
+        case HTTPHeader::SecFetchSite: {
+            return "Sec-Fetch-Site";
+            break;
+        }
+        case HTTPHeader::SecFetchDest: {
+            return "Sec-Fetch-Dest";
+            break;
+        }
+        case HTTPHeader::UserAgent: {
+            return "User-Agent";
             break;
         }
         case HTTPHeader::Vary: {
             return "Vary";
             break;
         }
+        default: {
+            // throw error
+            return "";
+            break;
+        }
+    }
+}
+
+HTTPHeader stringToHTTPHeader(std::string header) {
+    std::string lHeader = toLower(header);
+    
+    if (lHeader == toLower(httpHeaderToString(HTTPHeader::Accept))) {
+        return HTTPHeader::Accept;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AcceptEncoding))) {
+        return HTTPHeader::AcceptEncoding;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AcceptLanguage))) {
+        return HTTPHeader::AcceptLanguage;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlRequestHeaders))) {
+        return HTTPHeader::AccessControlRequestHeaders;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlRequestMethod))) {
+        return HTTPHeader::AccessControlRequestMethod;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlAllowOrigin))) {
+        return HTTPHeader::AccessControlAllowOrigin;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Connection))) {
+        return HTTPHeader::Connection;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::ContentType))) {
+        return HTTPHeader::ContentType;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::ContentLength))) {
+        return HTTPHeader::ContentLength;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Host))) {
+        return HTTPHeader::Host;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Referer))) {
+        return HTTPHeader::Referer;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Origin))) {
+        return HTTPHeader::Origin;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUa))) {
+        return HTTPHeader::SecChUa;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUaPlatform))) {
+        return HTTPHeader::SecChUaPlatform;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUaMobile))) {
+        return HTTPHeader::SecChUaMobile;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchMode))) {
+        return HTTPHeader::SecFetchMode;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchSite))) {
+        return HTTPHeader::SecFetchSite;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchDest))) {
+        return HTTPHeader::SecFetchDest;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::UserAgent))) {
+        return HTTPHeader::UserAgent;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Vary))) {
+        return HTTPHeader::Vary;
+    }
+    else {
+        return HTTPHeader::NOTIMPLEMENTED;
+    }
+}
+
+
+
+HTTPMethods stringToMethod(std::string methodSTR) {
+    if (methodSTR == "GET") {
+        return HTTPMethods::GET;
+    }
+    else if (methodSTR == "HEAD") {
+        return HTTPMethods::HEAD;
+    }
+    else if (methodSTR == "POST") {
+        return HTTPMethods::POST;
+    }
+    else if (methodSTR == "PUT") {
+        return HTTPMethods::PUT;
+    }
+    else if (methodSTR == "DELETE") {
+        return HTTPMethods::DELETE;
+    }
+    else if (methodSTR == "CONNECT") {
+        return HTTPMethods::CONNECT;
+    }
+    else if (methodSTR == "OPTIONS") {
+        return HTTPMethods::OPTIONS;
+    }
+    else if (methodSTR == "TRACE") {
+        return HTTPMethods::TRACE;
+    }
+    else {
+        // throw an error
     }
 }
 
@@ -108,10 +273,10 @@ std::string HttpResponse::getResponse() const {
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
         if (header.first == HTTPHeader::ContentLength) {
-            response += HttpHeaderToString(header.first) + ": " + getContentLength() + CRLF();
+            response += httpHeaderToString(header.first) + ": " + getContentLength() + CRLF();
         }
         else {
-            response += HttpHeaderToString(header.first) + ": " + header.second + CRLF();
+            response += httpHeaderToString(header.first) + ": " + header.second + CRLF();
         }
     }
     response += CRLF() + content;
@@ -121,8 +286,71 @@ std::string HttpResponse::getResponse() const {
 
 /* ================================== HttpRequest Implementation ================================== */
 
-HttpRequest::HttpRequest(std::string request) {
 
+
+HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content("") {
+    bool gotMethod = false;
+    bool gotRequestTarget = false;
+    std::string methodAsString = "";
+
+    bool foundColon = false;
+    bool foundCRLF = false;
+    std::string headerField = "";
+    std::string headerValue = "";
+
+
+    int i = 0;
+    for (; i < request.size(); i++) {
+        if (request[i] == ' ') {
+            if (!gotMethod) gotMethod = true;
+            else if (!gotRequestTarget) gotRequestTarget = true;
+        }
+        else if (request[i] == '\r' && request[i+1] == '\n') {
+            i += 2;
+            break;
+        }
+        else if (!gotMethod) {
+            methodAsString += request[i];
+        }
+        else if (!gotRequestTarget) {
+            requestTarget += request[i];
+        }
+    }
+
+    method = stringToMethod(methodAsString);
+
+    for (; i < request.size(); i++) {
+        if (i+1 < request.size() && request[i] == '\r' && request[i+1] == '\n') {            
+            if (stringToHTTPHeader(headerField) != HTTPHeader::NOTIMPLEMENTED)  {
+                if (headerValue[0] == ' ') headerValue.erase(headerValue.begin());
+                if (headerValue[headerValue.size() - 1] == ' ') headerValue.erase(headerValue.end());
+                headers.push_back({stringToHTTPHeader(headerField), headerValue});
+            }
+            i++;
+            if (i+2 < request.size() && request[i+1] == '\r' && request[i+2] == '\n') {
+                i += 3;
+                break;
+            }
+            
+
+            headerField = "";
+            headerValue = "";
+            foundColon = false;
+        }
+        else if (request[i] == ':') {
+            foundColon = true;
+        }
+        else if (!foundColon) {
+            headerField += request[i];
+        }
+        else {
+            headerValue += request[i];
+        }
+    }
+
+    for (; i < request.size(); i++) {
+        content += request[i];
+    }    
 }
 
 std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const {

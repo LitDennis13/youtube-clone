@@ -108,7 +108,7 @@ void runServer() {
             if (bytesInBuffer == 0) std::cout << "is zero" << std::endl;
 
             std::string httpRequest = std::string(buffer, bytesInBuffer);
-
+            
             std::string httpResponse = httpRequestHandler(httpRequest);
             sendStatus = send(newSockFD, httpResponse.c_str(), httpResponse.size(), 0);
             std::cout << "SENT " << sendStatus << " Bytes" << std::endl;

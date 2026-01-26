@@ -7,7 +7,7 @@ enum HTTPMethods {
     HEAD,
     POST,
     PUT,
-    Delete,
+    DELETE,
     CONNECT,
     OPTIONS,
     TRACE,
@@ -23,14 +23,35 @@ enum HTTPSatusCode {
 };
 
 enum HTTPHeader {
+    Accept,
+    AcceptEncoding,
+    AcceptLanguage,
+    AccessControlRequestHeaders,
+    AccessControlRequestMethod,
+    AccessControlAllowOrigin,
+    Connection,
     ContentType,
     ContentLength,
-    AccessControlAllowOrigin,
-    AccessControlRequestMethod,
+    Host,
+    Referer,
+    Origin,
+    SecChUa,
+    SecChUaPlatform,
+    SecChUaMobile,
+    SecFetchMode,
+    SecFetchSite,
+    SecFetchDest,
+    UserAgent,
     Vary,
+
+    NOTIMPLEMENTED,
 };
 
-std::string HttpHeaderToString(HTTPHeader header);
+std::string httpHeaderToString(HTTPHeader header);
+HTTPHeader stringToHTTPHeader(std::string header);
+
+HTTPMethods stringToMethod(std:: string methodSTR);
+
 
 class HttpResponse {
 private:
@@ -39,7 +60,6 @@ private:
     std::vector<std::pair<HTTPHeader, std::string>> headers;
 
     std::string content;
-
 
     std::string CRLF() const;
 
@@ -64,10 +84,9 @@ class HttpRequest {
 private:
     HTTPMethods method;
     std::string requestTarget;
-
     std::vector<std::pair<HTTPHeader, std::string>> headers;
-
     std::string content;
+
 public:
     HttpRequest(std::string request);
     
