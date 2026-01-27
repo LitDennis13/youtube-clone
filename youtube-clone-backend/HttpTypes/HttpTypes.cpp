@@ -42,6 +42,10 @@ std::string httpHeaderToString(HTTPHeader header) {
             return "Access-Control-Allow-Origin";
             break;
         }
+        case HTTPHeader::CacheControl: {
+            return "Cache-Control";
+            break;
+        }
         case HTTPHeader::Connection: {
             return "Connection";
             break;
@@ -64,6 +68,10 @@ std::string httpHeaderToString(HTTPHeader header) {
         }
         case HTTPHeader::Origin: {
             return "Origin";
+            break;
+        }
+        case HTTPHeader::PostmanToken: {
+            return "Postman-Token";
             break;
         }
         case HTTPHeader::SecChUa: {
@@ -99,8 +107,7 @@ std::string httpHeaderToString(HTTPHeader header) {
             break;
         }
         default: {
-            // throw error
-            return "";
+            throw HTTPInvalidHeader();
             break;
         }
     }
@@ -127,6 +134,9 @@ HTTPHeader stringToHTTPHeader(std::string header) {
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlAllowOrigin))) {
         return HTTPHeader::AccessControlAllowOrigin;
     }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::CacheControl))) {
+        return HTTPHeader::CacheControl;
+    }
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Connection))) {
         return HTTPHeader::Connection;
     }
@@ -144,6 +154,9 @@ HTTPHeader stringToHTTPHeader(std::string header) {
     }
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Origin))) {
         return HTTPHeader::Origin;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::PostmanToken))) {
+        return HTTPHeader::PostmanToken;
     }
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUa))) {
         return HTTPHeader::SecChUa;
@@ -170,7 +183,7 @@ HTTPHeader stringToHTTPHeader(std::string header) {
         return HTTPHeader::Vary;
     }
     else {
-        return HTTPHeader::NOTIMPLEMENTED;
+        throw HTTPInvalidHeader(lHeader);
     }
 }
 
@@ -202,13 +215,13 @@ HTTPMethods stringToMethod(std::string methodSTR) {
         return HTTPMethods::TRACE;
     }
     else {
-        // throw an error
+        throw HTTPInvalidMethod(methodSTR);
     }
 }
 
 /* ================================== HttpReponse Implementation ================================== */
 
-HttpResponse::HttpResponse(): statusCode(HTTPSatusCode::x200), headers({}),content("") {
+HttpResponse::HttpResponse(): statusCode(HTTPSatusCode::x200), headers({}), content("") {
 }
 
 void HttpResponse::setStatusCode(HTTPSatusCode newStatusCode) {
@@ -245,11 +258,6 @@ std::string HttpResponse::getStatusLine() const {
         }
         case HTTPSatusCode::x501: {
             line += "501 Not Implemented";
-            break;
-        }
-        default: {
-            // implement error classes!!!
-            break;
         }
     }
     return line;
@@ -267,8 +275,7 @@ void HttpResponse::setContent(std::string newContent) {
     content = newContent;
 }
 
-std::string HttpResponse::getResponse() const {
-    // "Vary: Access-Control-Request-Method" + CRLF() + "Vary: Access-Control-Request-Headers" + CRLF() + 
+std::string HttpResponse::getResponse() const { 
     std::string response = getStatusLine() + CRLF();
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
@@ -284,9 +291,8 @@ std::string HttpResponse::getResponse() const {
     return response;
 }
 
+
 /* ================================== HttpRequest Implementation ================================== */
-
-
 
 HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content("") {
     bool gotMethod = false;
@@ -317,15 +323,24 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
         }
     }
 
-    method = stringToMethod(methodAsString);
+    try {
+        method = stringToMethod(methodAsString);
+    } catch (HTTPInvalidMethod err) {
+        // std::cout << err.what() << std::endl;
+        exit(1);
+    }
 
     for (; i < request.size(); i++) {
         if (i+1 < request.size() && request[i] == '\r' && request[i+1] == '\n') {            
-            if (stringToHTTPHeader(headerField) != HTTPHeader::NOTIMPLEMENTED)  {
-                if (headerValue[0] == ' ') headerValue.erase(headerValue.begin());
-                if (headerValue[headerValue.size() - 1] == ' ') headerValue.erase(headerValue.end());
+            if (headerValue[0] == ' ') headerValue.erase(headerValue.begin());
+            if (headerValue[headerValue.size() - 1] == ' ') headerValue.erase(headerValue.end());
+            try {
                 headers.push_back({stringToHTTPHeader(headerField), headerValue});
+            } catch (HTTPInvalidHeader err) {
+                std::cerr << err.what() << std::endl;
+                // exit(1);
             }
+
             i++;
             if (i+2 < request.size() && request[i+1] == '\r' && request[i+2] == '\n') {
                 i += 3;
@@ -350,7 +365,8 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
 
     for (; i < request.size(); i++) {
         content += request[i];
-    }    
+    }
+
 }
 
 std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const {
@@ -359,4 +375,30 @@ std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const 
 
 std::string HttpRequest::getContent() const {
     return content;
+}
+
+/* ================================== HTTPInvalidHeader Exception Class Implementation ================================== */
+
+HTTPInvalidHeader::HTTPInvalidHeader() {
+    general = "Inputted HTTP header is not implemented or is invalid";
+    specific = "";
+}
+
+HTTPInvalidHeader::HTTPInvalidHeader(std::string inputtedHeader): HTTPInvalidHeader()  {
+    specific = "HTTP header \"" + inputtedHeader + "\" is not implemented or is invalid";
+}
+
+const char* HTTPInvalidHeader::what() {
+    if (specific != "") return (specific).c_str();
+    else return (general).c_str();
+}
+
+/* ================================== HTTPInvalidHeader Exception Class Implementation ================================== */
+
+HTTPInvalidMethod::HTTPInvalidMethod(std::string inputtedMethod) {
+    specific = "HTTP method \"" + inputtedMethod + "\" is not implemented or is invalid";
+}
+
+const char* HTTPInvalidMethod::what() {
+    return specific.c_str();
 }

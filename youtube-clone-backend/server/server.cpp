@@ -105,7 +105,7 @@ void runServer() {
             close(sockFD);
             memset(buffer, 0, BUFFER_LEN);
             bytesInBuffer = recv(newSockFD, &buffer, BUFFER_LEN, 0);
-            if (bytesInBuffer == 0) std::cout << "is zero" << std::endl;
+            if (bytesInBuffer == 0) std::cout << "Empty Message Recieved" << std::endl;
 
             std::string httpRequest = std::string(buffer, bytesInBuffer);
             

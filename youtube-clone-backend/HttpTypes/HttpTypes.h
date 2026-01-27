@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <exception>
 
 enum HTTPMethods {
     GET,
@@ -29,12 +30,14 @@ enum HTTPHeader {
     AccessControlRequestHeaders,
     AccessControlRequestMethod,
     AccessControlAllowOrigin,
+    CacheControl,
     Connection,
     ContentType,
     ContentLength,
     Host,
     Referer,
     Origin,
+    PostmanToken,
     SecChUa,
     SecChUaPlatform,
     SecChUaMobile,
@@ -43,8 +46,6 @@ enum HTTPHeader {
     SecFetchDest,
     UserAgent,
     Vary,
-
-    NOTIMPLEMENTED,
 };
 
 std::string httpHeaderToString(HTTPHeader header);
@@ -93,4 +94,29 @@ public:
     std::vector<std::pair<HTTPHeader, std::string>> getHeaders() const;
 
     std::string getContent() const;
+};
+
+
+// Exception Classes
+
+class HTTPInvalidHeader: public std::exception {
+private:
+    std::string general;
+    std::string specific;
+
+public:
+    HTTPInvalidHeader();
+    HTTPInvalidHeader(std::string inputtedHeader);
+
+    const char* what();
+};
+
+class HTTPInvalidMethod: public std::exception {
+private:
+    std::string specific;
+
+public:
+    HTTPInvalidMethod(std::string inputtedMethod);
+
+    const char* what();
 };
