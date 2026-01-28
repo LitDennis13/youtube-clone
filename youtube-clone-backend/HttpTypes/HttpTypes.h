@@ -27,7 +27,9 @@ enum HTTPHeader {
     Accept,
     AcceptEncoding,
     AcceptLanguage,
+    AccessControlAllowHeaders,
     AccessControlRequestHeaders,
+    AccessControlAllowMethods,
     AccessControlRequestMethod,
     AccessControlAllowOrigin,
     CacheControl,
@@ -74,6 +76,7 @@ public:
     void setStatusCode(HTTPSatusCode newCode);
 
     void setHeaders(std::vector<std::pair<HTTPHeader, std::string>> newHeaders);
+    void addHeader(std::pair<HTTPHeader, std::string> newHeader);
 
     void setContent(std::string newContent);
 
@@ -90,6 +93,9 @@ private:
 
 public:
     HttpRequest(std::string request);
+
+    HTTPMethods getMethod() const;
+    std::string getRequestTarget() const;
     
     std::vector<std::pair<HTTPHeader, std::string>> getHeaders() const;
 

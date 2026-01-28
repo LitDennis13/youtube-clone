@@ -11,7 +11,14 @@ import styles from './App.module.css';
 import { fetchOptionsGet } from '../fetchOptions';
 
 function test() {
-	fetch("http://localhost:3490", fetchOptionsGet).catch((error) => {
+	fetch("http://localhost:3490", fetchOptionsGet)
+	.then((response) => {
+		return response.text();
+	})
+	.then((data) => {
+		console.log("Data Recieved: " + data);
+	})
+	.catch((error) => {
 		console.error(error);
 	});
 }

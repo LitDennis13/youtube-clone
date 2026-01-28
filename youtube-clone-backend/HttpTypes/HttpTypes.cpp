@@ -30,8 +30,16 @@ std::string httpHeaderToString(HTTPHeader header) {
             return "Accept-Language";
             break;
         }
+        case HTTPHeader::AccessControlAllowHeaders: {
+            return "Access-Control-Allow-Headers";
+            break;
+        }
         case HTTPHeader::AccessControlRequestHeaders: {
             return "Access-Control-Request-Headers";
+            break;
+        }
+        case HTTPHeader::AccessControlAllowMethods: {
+            return "Access-Control-Allow-Methods";
             break;
         }
         case HTTPHeader::AccessControlRequestMethod: {
@@ -271,6 +279,10 @@ void HttpResponse::setHeaders(std::vector<std::pair<HTTPHeader, std::string>> ne
     headers = newHeaders;
 }
 
+void HttpResponse::addHeader(std::pair<HTTPHeader, std::string> newHeader) {
+    headers.push_back(newHeader);
+}
+
 void HttpResponse::setContent(std::string newContent) {
     content = newContent;
 }
@@ -279,12 +291,10 @@ std::string HttpResponse::getResponse() const {
     std::string response = getStatusLine() + CRLF();
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
-        if (header.first == HTTPHeader::ContentLength) {
+        if (header.first == HTTPHeader::ContentType) {
             response += httpHeaderToString(header.first) + ": " + getContentLength() + CRLF();
         }
-        else {
-            response += httpHeaderToString(header.first) + ": " + header.second + CRLF();
-        }
+        response += httpHeaderToString(header.first) + ": " + header.second + CRLF();
     }
     response += CRLF() + content;
 
@@ -352,7 +362,7 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
             headerValue = "";
             foundColon = false;
         }
-        else if (request[i] == ':') {
+        else if (request[i] == ':' && foundColon != true) {
             foundColon = true;
         }
         else if (!foundColon) {
@@ -367,6 +377,13 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
         content += request[i];
     }
 
+}
+
+HTTPMethods HttpRequest::getMethod() const {
+    return method;
+}
+std::string HttpRequest::getRequestTarget() const {
+    return requestTarget;
 }
 
 std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const {

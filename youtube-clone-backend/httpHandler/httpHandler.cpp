@@ -6,34 +6,77 @@
 
 
 
-std::string httpRequestHandler(std::string request) {
+std::string httpRequestHandler(std::string rawRequest) {
     std::cout << "\n\n\n\n\n\n----------------------------------------------------------Request Start" << std::endl;
-    std::cout << request << std::endl;
+    std::cout << rawRequest << std::endl;
     std::cout << "----------------------------------------------------------Request End\n\n" << std::endl;
-    HttpRequest r = HttpRequest(request);
-    /*
-    Example Response
-    HTTP/1.1 200 OK
-    Vary: Origin
-    Vary: Access-Control-Request-Method
-    Vary: Access-Control-Request-Headers
-    Content-Type: text/plain;charset=UTF-8
-    Content-Length: 13
-    Date: Fri, 16 Jan 2026 05:53:52 GMT
-    Keep-Alive: timeout=60
-    Connection: keep-alive
-    
-    Hello, World!
-    */
+    HttpRequest request = HttpRequest(rawRequest);
 
     HttpResponse response;
-    response.setHeaders({
-        {HTTPHeader::ContentType, "text/html;charset=utf-8"},
-        {HTTPHeader::ContentLength, ""},
-        {HTTPHeader::AccessControlAllowOrigin, "http://localhost:3000"},
-        {HTTPHeader::Vary, "Origin"},
-    });
-    response.setContent("Hello, HTTP!");
+    // response.setHeaders({
+    //     {HTTPHeader::ContentType, "text/html;charset=utf-8"},
+    //     {HTTPHeader::ContentLength, ""},
+    //     {HTTPHeader::AccessControlAllowOrigin, "http://localhost:3000"},
+    //     {HTTPHeader::Vary, "Origin"},
+    // });
+    // response.setContent("Hello, HTTP!");
+    
+    
+    switch (request.getMethod()) {
+        case HTTPMethods::GET:
+        case HTTPMethods::HEAD: {
+            response.setStatusCode(HTTPSatusCode::x200);
+            response.setContent("Hello, World!");
+            response.addHeader({HTTPHeader::ContentType, "text/html;charset=utf-8"});
+
+            for (const std::pair<HTTPHeader, std::string> &header: request.getHeaders()) {
+                if (header.first == HTTPHeader::Origin) {
+                    response.addHeader({HTTPHeader::AccessControlAllowOrigin, header.second});
+                }
+            }
+
+            break;
+        }
+        case HTTPMethods::POST: {
+            
+            break;
+        }
+        case HTTPMethods::PUT: {
+            break;
+        }
+        case HTTPMethods::DELETE: {
+            break;
+        }
+        case HTTPMethods::CONNECT: {
+            break;
+        }
+        case HTTPMethods::OPTIONS: {
+            response.setStatusCode(HTTPSatusCode::x204);
+            for (const std::pair<HTTPHeader, std::string> &header: request.getHeaders()) {
+                if (header.first == HTTPHeader::Origin) {
+                    response.addHeader({HTTPHeader::AccessControlAllowOrigin, header.second});
+                }
+                else if (header.first == HTTPHeader::AccessControlRequestMethod) {
+                    response.addHeader({HTTPHeader::AccessControlAllowMethods, header.second});
+                }
+                else if (header.first == HTTPHeader::AccessControlRequestHeaders) {
+                    response.addHeader({HTTPHeader::AccessControlAllowHeaders, header.second});
+                }
+            }
+
+
+            break;
+        }
+        case HTTPMethods::TRACE: {
+            break;
+        }
+
+    }
+
+
+
+
+    
 
     std::cout << "----------------------------------------------------------Response Start" << std::endl;
     std::cout << response.getResponse() << std::endl;
