@@ -129,29 +129,29 @@ output/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/build
 .PHONY : output/fast
 
-HttpTypes/HttpTypes.o: HttpTypes/HttpTypes.cpp.o
-.PHONY : HttpTypes/HttpTypes.o
+HttpImplementation/httpImplementation.o: HttpImplementation/httpImplementation.cpp.o
+.PHONY : HttpImplementation/httpImplementation.o
 
 # target to build an object file
-HttpTypes/HttpTypes.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o
-.PHONY : HttpTypes/HttpTypes.cpp.o
+HttpImplementation/httpImplementation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o
+.PHONY : HttpImplementation/httpImplementation.cpp.o
 
-HttpTypes/HttpTypes.i: HttpTypes/HttpTypes.cpp.i
-.PHONY : HttpTypes/HttpTypes.i
+HttpImplementation/httpImplementation.i: HttpImplementation/httpImplementation.cpp.i
+.PHONY : HttpImplementation/httpImplementation.i
 
 # target to preprocess a source file
-HttpTypes/HttpTypes.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.i
-.PHONY : HttpTypes/HttpTypes.cpp.i
+HttpImplementation/httpImplementation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.i
+.PHONY : HttpImplementation/httpImplementation.cpp.i
 
-HttpTypes/HttpTypes.s: HttpTypes/HttpTypes.cpp.s
-.PHONY : HttpTypes/HttpTypes.s
+HttpImplementation/httpImplementation.s: HttpImplementation/httpImplementation.cpp.s
+.PHONY : HttpImplementation/httpImplementation.s
 
 # target to generate assembly for a file
-HttpTypes/HttpTypes.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.s
-.PHONY : HttpTypes/HttpTypes.cpp.s
+HttpImplementation/httpImplementation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s
+.PHONY : HttpImplementation/httpImplementation.cpp.s
 
 httpHandler/httpHandler.o: httpHandler/httpHandler.cpp.o
 .PHONY : httpHandler/httpHandler.o
@@ -234,9 +234,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... output"
-	@echo "... HttpTypes/HttpTypes.o"
-	@echo "... HttpTypes/HttpTypes.i"
-	@echo "... HttpTypes/HttpTypes.s"
+	@echo "... HttpImplementation/httpImplementation.o"
+	@echo "... HttpImplementation/httpImplementation.i"
+	@echo "... HttpImplementation/httpImplementation.s"
 	@echo "... httpHandler/httpHandler.o"
 	@echo "... httpHandler/httpHandler.i"
 	@echo "... httpHandler/httpHandler.s"

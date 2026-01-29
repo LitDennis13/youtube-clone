@@ -86,19 +86,19 @@ CMakeFiles/output.dir/server/server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/output.dir/server/server.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/server/server.cpp -o CMakeFiles/output.dir/server/server.cpp.s
 
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o: CMakeFiles/output.dir/flags.make
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o: CMakeFiles/output.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o -MF CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o.d -o CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o -c /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o: CMakeFiles/output.dir/flags.make
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o: CMakeFiles/output.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o -MF CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o.d -o CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o -c /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp
 
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp > CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.i
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp > CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.i
 
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp -o CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.s
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp -o CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s
 
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: CMakeFiles/output.dir/flags.make
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.cpp
@@ -131,7 +131,7 @@ CMakeFiles/output.dir/main.cpp.s: cmake_force
 # Object files for target output
 output_OBJECTS = \
 "CMakeFiles/output.dir/server/server.cpp.o" \
-"CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o" \
+"CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o" \
 "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o" \
 "CMakeFiles/output.dir/main.cpp.o"
 
@@ -139,7 +139,7 @@ output_OBJECTS = \
 output_EXTERNAL_OBJECTS =
 
 output: CMakeFiles/output.dir/server/server.cpp.o
-output: CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o
+output: CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o
 output: CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o
 output: CMakeFiles/output.dir/main.cpp.o
 output: CMakeFiles/output.dir/build.make

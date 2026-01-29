@@ -1,4 +1,4 @@
-#include "HttpTypes.h"
+#include "httpImplementation.h"
 #include <iostream>
 #include <vector>
 
@@ -106,6 +106,14 @@ std::string httpHeaderToString(HTTPHeader header) {
             return "Sec-Fetch-Dest";
             break;
         }
+        case HTTPHeader::SecFetchUser: {
+            return "sec-fetch-user";
+            break;
+        }
+        case HTTPHeader::UpgradeInsecureRequests: {
+            return "Upgrade-Insecure-Requests";
+            break;
+        }
         case HTTPHeader::UserAgent: {
             return "User-Agent";
             break;
@@ -184,6 +192,12 @@ HTTPHeader stringToHTTPHeader(std::string header) {
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchDest))) {
         return HTTPHeader::SecFetchDest;
     }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchUser))) {
+        return HTTPHeader::SecFetchUser;
+    }
+    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::UpgradeInsecureRequests))) {
+        return HTTPHeader::UpgradeInsecureRequests;
+    }
     else if (lHeader == toLower(httpHeaderToString(HTTPHeader::UserAgent))) {
         return HTTPHeader::UserAgent;
     }
@@ -195,8 +209,7 @@ HTTPHeader stringToHTTPHeader(std::string header) {
     }
 }
 
-
-
+// function will convert the method as a string to a method in the enum type, however if the method is invalid the function throws an error
 HTTPMethods stringToMethod(std::string methodSTR) {
     if (methodSTR == "GET") {
         return HTTPMethods::GET;
@@ -256,6 +269,10 @@ std::string HttpResponse::getStatusLine() const {
             line += "204 No Content";
             break;
         }
+        case HTTPSatusCode::x400: {
+            line += "400 Bad Request";
+            break;
+        }
         case HTTPSatusCode::x404: {
             line += "404 Not Found";
             break;
@@ -304,6 +321,8 @@ std::string HttpResponse::getResponse() const {
 
 /* ================================== HttpRequest Implementation ================================== */
 
+HttpRequest::HttpRequest() = default;
+
 HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content("") {
     bool gotMethod = false;
     bool gotRequestTarget = false;
@@ -314,6 +333,7 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
     std::string headerField = "";
     std::string headerValue = "";
 
+    bool foundHeadersEnd = false;
 
     int i = 0;
     for (; i < request.size(); i++) {
@@ -333,31 +353,22 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
         }
     }
 
-    try {
-        method = stringToMethod(methodAsString);
-    } catch (HTTPInvalidMethod err) {
-        // std::cout << err.what() << std::endl;
-        exit(1);
-    }
+    method = stringToMethod(methodAsString);
 
     for (; i < request.size(); i++) {
         if (i+1 < request.size() && request[i] == '\r' && request[i+1] == '\n') {            
             if (headerValue[0] == ' ') headerValue.erase(headerValue.begin());
             if (headerValue[headerValue.size() - 1] == ' ') headerValue.erase(headerValue.end());
-            try {
-                headers.push_back({stringToHTTPHeader(headerField), headerValue});
-            } catch (HTTPInvalidHeader err) {
-                std::cerr << err.what() << std::endl;
-                // exit(1);
-            }
+            
+            headers.push_back({stringToHTTPHeader(headerField), headerValue});
 
             i++;
             if (i+2 < request.size() && request[i+1] == '\r' && request[i+2] == '\n') {
                 i += 3;
+                foundHeadersEnd = true;
                 break;
             }
             
-
             headerField = "";
             headerValue = "";
             foundColon = false;
@@ -373,10 +384,13 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
         }
     }
 
+    if (!foundHeadersEnd) {
+        throw HTTPImproperFormat();
+    }
+
     for (; i < request.size(); i++) {
         content += request[i];
     }
-
 }
 
 HTTPMethods HttpRequest::getMethod() const {
@@ -419,3 +433,12 @@ HTTPInvalidMethod::HTTPInvalidMethod(std::string inputtedMethod) {
 const char* HTTPInvalidMethod::what() {
     return specific.c_str();
 }
+
+/* ================================== HTTPImproperFormat Exception Class Implementation ================================== */
+
+HTTPImproperFormat::HTTPImproperFormat() = default;
+
+const char* HTTPImproperFormat::what() {
+    return "Improper Request Format";
+}
+

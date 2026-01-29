@@ -18,6 +18,7 @@ enum HTTPSatusCode {
     x200,
     x201,
     x204,
+    x400,
     x404,
     x500,
     x501,
@@ -46,6 +47,8 @@ enum HTTPHeader {
     SecFetchMode,
     SecFetchSite,
     SecFetchDest,
+    SecFetchUser,
+    UpgradeInsecureRequests,
     UserAgent,
     Vary,
 };
@@ -92,6 +95,7 @@ private:
     std::string content;
 
 public:
+    HttpRequest();
     HttpRequest(std::string request);
 
     HTTPMethods getMethod() const;
@@ -123,6 +127,13 @@ private:
 
 public:
     HTTPInvalidMethod(std::string inputtedMethod);
+
+    const char* what();
+};
+
+class HTTPImproperFormat: public std::exception {
+public:
+    HTTPImproperFormat();
 
     const char* what();
 };

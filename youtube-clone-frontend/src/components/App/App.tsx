@@ -8,10 +8,19 @@ import Menu from '../Menu/Menu';
 
 import styles from './App.module.css';
 
-import { fetchOptionsGet } from '../fetchOptions';
+import { fetchOptionsGet, fetchOptionsPOST} from '../fetchOptions';
 
 function test() {
-	fetch("http://localhost:3490", fetchOptionsGet)
+	const ex = {
+		"name" : "a name",
+		"stuff": 56,
+	}
+	fetch("http://localhost:3490", {...fetchOptionsPOST,
+		headers: {
+			"Content-Type": "applcation/json",
+		},
+		body: JSON.stringify(ex),
+	})
 	.then((response) => {
 		return response.text();
 	})

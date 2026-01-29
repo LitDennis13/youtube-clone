@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp" "CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o" "gcc" "CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o.d"
+  "/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp" "CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o" "gcc" "CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o.d"
   "/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.cpp" "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o" "gcc" "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o.d"
   "/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/main.cpp" "CMakeFiles/output.dir/main.cpp.o" "gcc" "CMakeFiles/output.dir/main.cpp.o.d"
   "/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/server/server.cpp" "CMakeFiles/output.dir/server/server.cpp.o" "gcc" "CMakeFiles/output.dir/server/server.cpp.o.d"

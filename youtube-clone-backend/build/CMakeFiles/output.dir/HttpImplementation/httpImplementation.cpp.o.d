@@ -1,6 +1,6 @@
-CMakeFiles/output.dir/HttpTypes/HttpTypes.cpp.o: \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.cpp \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpTypes/HttpTypes.h \
+CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o: \
+  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp \
+  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \

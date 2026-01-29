@@ -1,5 +1,5 @@
 #include "httpHandler.h"
-#include "../HttpTypes/HttpTypes.h"
+#include "../HttpImplementation/httpImplementation.h"
 #include "../server/server.h"
 #include <iostream>
 #include <vector>
@@ -10,16 +10,24 @@ std::string httpRequestHandler(std::string rawRequest) {
     std::cout << "\n\n\n\n\n\n----------------------------------------------------------Request Start" << std::endl;
     std::cout << rawRequest << std::endl;
     std::cout << "----------------------------------------------------------Request End\n\n" << std::endl;
-    HttpRequest request = HttpRequest(rawRequest);
-
+    HttpRequest request;
     HttpResponse response;
-    // response.setHeaders({
-    //     {HTTPHeader::ContentType, "text/html;charset=utf-8"},
-    //     {HTTPHeader::ContentLength, ""},
-    //     {HTTPHeader::AccessControlAllowOrigin, "http://localhost:3000"},
-    //     {HTTPHeader::Vary, "Origin"},
-    // });
-    // response.setContent("Hello, HTTP!");
+
+    try {
+        request = HttpRequest(rawRequest);
+    } catch (HTTPInvalidMethod invldMthd) {
+        response.setStatusCode(HTTPSatusCode::x400);
+        std::cout << invldMthd.what() << std::endl;
+        return response.getResponse();
+    } catch (HTTPInvalidHeader invldHdr) {
+        response.setStatusCode(HTTPSatusCode::x400);
+        std::cout << invldHdr.what() << std::endl;
+        return response.getResponse();
+    } catch (HTTPImproperFormat invldFrmt) {
+        response.setStatusCode(HTTPSatusCode::x400);
+        std::cout << invldFrmt.what() << std::endl;
+        return response.getResponse();
+    }
     
     
     switch (request.getMethod()) {
@@ -37,8 +45,7 @@ std::string httpRequestHandler(std::string rawRequest) {
 
             break;
         }
-        case HTTPMethods::POST: {
-            
+        case HTTPMethods::POST: {            
             break;
         }
         case HTTPMethods::PUT: {
@@ -63,8 +70,6 @@ std::string httpRequestHandler(std::string rawRequest) {
                     response.addHeader({HTTPHeader::AccessControlAllowHeaders, header.second});
                 }
             }
-
-
             break;
         }
         case HTTPMethods::TRACE: {

@@ -1,5 +1,5 @@
 #include "server.h"
-#include "../httpHandler/httpHandler.h"
+#include "../HttpHandler/httpHandler.h"
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
