@@ -1,4 +1,4 @@
-export const fetchOptionsGet: RequestInit =  {
+export const fetchOptionsGET: RequestInit =  {
     method: "GET",
     mode: 'cors',
     headers: {

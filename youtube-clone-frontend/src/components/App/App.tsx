@@ -8,18 +8,23 @@ import Menu from '../Menu/Menu';
 
 import styles from './App.module.css';
 
-import { fetchOptionsGet, fetchOptionsPOST} from '../fetchOptions';
+import { fetchOptionsGET, fetchOptionsPOST} from '../fetchOptions';
 
 function test() {
-	const ex = {
-		"name" : "a name",
-		"stuff": 56,
-	}
+	const exampleData = {
+		"username" : "Random User Name",
+		"password": "Totally Real Password",
+		// "more data" : {
+		// 	"one" : 1,
+		// 	"five" : 5,
+		// },
+		"more data after the more data" : "data again",
+	};
 	fetch("http://localhost:3490", {...fetchOptionsPOST,
 		headers: {
-			"Content-Type": "applcation/json",
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(ex),
+		body: JSON.stringify(exampleData),
 	})
 	.then((response) => {
 		return response.text();
