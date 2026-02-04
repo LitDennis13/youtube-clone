@@ -3,8 +3,9 @@
 #include "../server/server.h"
 #include <iostream>
 #include <vector>
+#include <variant>
 
-class JsonData;
+/*class JsonData;
 
 class JsonDataEntry {
 public:
@@ -15,34 +16,40 @@ public:
 
 class SingleJsonDataEntry : public JsonDataEntry {
 public:
-    std::pair<std::string, std::string> entry;
+    std::string fieldName;
+    std::string fieldValue;
 
-    SingleJsonDataEntry(std::pair<std::string, std::string> newEntry): entry(newEntry) {}
+    SingleJsonDataEntry(std::string newFieldName, std::string newFieldValue): fieldName(newFieldName), fieldValue(newFieldValue) {}
 
     void printEntry() {
-        std::cout << entry.first << ": " << entry.second << std::endl;
+        std::cout << fieldName << ": " << fieldValue << std::endl;
     }
 
 
     friend class JsonData;
 };
 
-// class MultipleJsonDataEntry : public JsonDataEntry {
-// private:
-//     std::vector<SingleJsonDataEntry> entrys;
+class MultipleJsonDataEntry : public JsonDataEntry {
+private:
+    std::string fieldName;
 
-//     MultipleJsonDataEntry() = default;
+    std::vector<SingleJsonDataEntry> subEntrys;
 
-//     void addEntry(SingleJsonDataEntry entry) {
-//         entrys.push_back(entry);
-//     }
+    MultipleJsonDataEntry() = default;
 
-// public:
-//     friend class JsonData;
-// };
+    void addEntry(SingleJsonDataEntry entry) {
+        subEntrys.push_back(entry);
+    }
+
+
+
+public:
+    friend class JsonData;
+};
 // {"username":"Random User Name","password":"Totally Real Password","more data":{"one":1,"five":5},"more data after the more data":"data again"}
 class JsonData {
 private:
+
     std::vector<JsonDataEntry*> data;
 
 public:
@@ -65,7 +72,7 @@ public:
                 else { // getting here means we are at the end of an entry value and are ready to move onto a new entry entirely
                     gettingEntryName = true;
 
-                    SingleJsonDataEntry* newEntry = new SingleJsonDataEntry({entryName, entryValue});
+                    SingleJsonDataEntry* newEntry = new SingleJsonDataEntry(entryName, entryValue);
                     data.push_back(newEntry);
 
                     entryName = "";
@@ -90,7 +97,111 @@ public:
 
     }
 
+};*/
+
+
+class JsonDataEntry {
+private:
+    std::string fieldName;
+    std::variant<std::string, std::vector<JsonDataEntry>> fieldValue;
+    bool multiValue;
+    
+    bool start;
+
+    void resetAndSetFieldValue() {
+        fieldValue = "";
+    }
+    void resetAndSetEntries() {
+        fieldValue = std::vector<JsonDataEntry>{};
+        std::get<std::vector<JsonDataEntry>>(fieldValue).clear();
+    }
+
+public:
+    JsonDataEntry(): start(true) {}
+    JsonDataEntry(std::string newFieldName): fieldName(newFieldName), multiValue(false), start(false) {
+    }
+
+    void setFieldValue(std::string newValue) {
+        resetAndSetFieldValue();
+        multiValue = false;
+        fieldValue = newValue;
+    }
+
+    void addEntry(JsonDataEntry entry) {
+        if (multiValue == false) resetAndSetEntries(); 
+        multiValue = true;
+        
+        std::get<std::vector<JsonDataEntry>>(fieldValue).push_back(entry);
+    }
+
+    void print() const {
+        if (multiValue) {
+            for (const JsonDataEntry &entry: std::get<std::vector<JsonDataEntry>>(fieldValue)) {
+                entry.print();
+            }
+        }
+        else {
+            std::cout << fieldName << ": " << std::get<std::string>(fieldValue) << std::endl;
+        }
+    }
 };
+
+class JsonData {
+private:
+    JsonDataEntry data;
+
+    void parseJsonData(std::string rawJsonData) {
+        bool gettingEntryName = true; // if true it signals we are getting entry name, if false it signals we are getting entry value
+        std::string entryName = "";
+        std::string entryValue = "";
+
+        int characterPointer = 2; // start at the first character in a json string
+        while (characterPointer < rawJsonData.size()) {
+            char beforeCharacter = rawJsonData[characterPointer - 1];
+            char character = rawJsonData[characterPointer];
+
+            if (character == '\"' && beforeCharacter != '\\') {
+                if (gettingEntryName) { // getting here means we are at the end of an entry name
+                    gettingEntryName = false;
+                    characterPointer += 3;
+                }
+                else { // getting here means we are at the end of an entry value and are ready to move onto a new entry entirely
+                    gettingEntryName = true;
+
+                    JsonDataEntry newEntry = JsonDataEntry(entryName);
+                    newEntry.setFieldValue(entryValue);
+
+                    
+                    data.addEntry(newEntry);
+
+                    entryName = "";
+                    entryValue = "";
+
+                    characterPointer += 3;
+                }
+            }
+            else if (gettingEntryName) {
+                entryName += character;
+                characterPointer++;
+            }
+            else {
+                entryValue += character;
+                characterPointer++;
+            }
+        }
+        data.print();
+
+    }
+
+public:
+
+    JsonData(std::string rawJsonData) {
+        parseJsonData(rawJsonData);
+    }
+
+
+};
+
 
 std::string httpRequestHandler(std::string rawRequest) {
     std::cout << "\n\n\n\n\n\n----------------------------------------------------------Request Start" << std::endl;
