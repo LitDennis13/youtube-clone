@@ -14,10 +14,10 @@ function test() {
 	const exampleData = {
 		"username" : "Random User Name",
 		"password": "Totally Real Password",
-		// "more data" : {
-		// 	"one" : 1,
-		// 	"five" : 5,
-		// },
+		"more data" : {
+			"one" : "1",
+			"five" : "5",
+		},
 		"more data after the more data" : "data again",
 	};
 	fetch("http://localhost:3490", {...fetchOptionsPOST,

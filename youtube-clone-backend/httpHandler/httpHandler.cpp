@@ -121,6 +121,10 @@ public:
     JsonDataEntry(std::string newFieldName): fieldName(newFieldName), multiValue(false), start(false) {
     }
 
+    void setFieldName(std::string newName) {
+        fieldName = newName;
+    }
+
     void setFieldValue(std::string newValue) {
         resetAndSetFieldValue();
         multiValue = false;
@@ -136,6 +140,7 @@ public:
 
     void print() const {
         if (multiValue) {
+            std::cout << fieldName << " -"<< std::endl;
             for (const JsonDataEntry &entry: std::get<std::vector<JsonDataEntry>>(fieldValue)) {
                 entry.print();
             }
@@ -150,20 +155,55 @@ class JsonData {
 private:
     JsonDataEntry data;
 
-    void parseJsonData(std::string rawJsonData) {
+    JsonDataEntry parseJsonData(std::string rawJsonData) {
+        JsonDataEntry returnData;
         bool gettingEntryName = true; // if true it signals we are getting entry name, if false it signals we are getting entry value
         std::string entryName = "";
+
         std::string entryValue = "";
+        bool gettingSubJson = false;
+        std::string subJson = "";
+        int jsonLevelsDeep = -1;
 
         int characterPointer = 2; // start at the first character in a json string
         while (characterPointer < rawJsonData.size()) {
-            char beforeCharacter = rawJsonData[characterPointer - 1];
-            char character = rawJsonData[characterPointer];
+            if (gettingSubJson) {
+                subJson += rawJsonData[characterPointer];
 
-            if (character == '\"' && beforeCharacter != '\\') {
+                if (rawJsonData[characterPointer] == '{') {
+                    jsonLevelsDeep++;
+                }
+                else if (rawJsonData[characterPointer] == '}') {
+                    if (jsonLevelsDeep == 0) {
+                        gettingSubJson = false;
+                        std::cout << subJson << std::endl;
+                        JsonDataEntry newEntry = parseJsonData(subJson);
+                        newEntry.setFieldName(entryName);
+                        returnData.addEntry(newEntry);
+
+                        entryName = "";
+                        subJson = "";
+                        characterPointer += 3;                
+
+                        continue;
+                    }
+                    else {
+                        jsonLevelsDeep--;
+                    }
+                }
+
+                characterPointer++;                
+            }
+            else if (rawJsonData[characterPointer] == '\"' && rawJsonData[characterPointer - 1] != '\\') {
                 if (gettingEntryName) { // getting here means we are at the end of an entry name
-                    gettingEntryName = false;
-                    characterPointer += 3;
+                    if (rawJsonData[characterPointer+1] == ':' && rawJsonData[characterPointer+2] == '{') {
+                        gettingSubJson = true;
+                        characterPointer += 2;
+                    }
+                    else {
+                        gettingEntryName = false;
+                        characterPointer += 3;
+                    }
                 }
                 else { // getting here means we are at the end of an entry value and are ready to move onto a new entry entirely
                     gettingEntryName = true;
@@ -171,8 +211,7 @@ private:
                     JsonDataEntry newEntry = JsonDataEntry(entryName);
                     newEntry.setFieldValue(entryValue);
 
-                    
-                    data.addEntry(newEntry);
+                    returnData.addEntry(newEntry);
 
                     entryName = "";
                     entryValue = "";
@@ -181,22 +220,23 @@ private:
                 }
             }
             else if (gettingEntryName) {
-                entryName += character;
+                entryName += rawJsonData[characterPointer];
                 characterPointer++;
             }
             else {
-                entryValue += character;
+                entryValue += rawJsonData[characterPointer];
                 characterPointer++;
             }
         }
-        data.print();
 
+        return returnData;
     }
 
 public:
 
     JsonData(std::string rawJsonData) {
-        parseJsonData(rawJsonData);
+        data = parseJsonData(rawJsonData);
+        data.print();
     }
 
 
