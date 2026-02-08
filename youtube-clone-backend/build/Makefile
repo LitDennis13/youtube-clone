@@ -153,6 +153,30 @@ HttpImplementation/httpImplementation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s
 .PHONY : HttpImplementation/httpImplementation.cpp.s
 
+httpHandler/JsonHandler/jsonHandler.o: httpHandler/JsonHandler/jsonHandler.cpp.o
+.PHONY : httpHandler/JsonHandler/jsonHandler.o
+
+# target to build an object file
+httpHandler/JsonHandler/jsonHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o
+.PHONY : httpHandler/JsonHandler/jsonHandler.cpp.o
+
+httpHandler/JsonHandler/jsonHandler.i: httpHandler/JsonHandler/jsonHandler.cpp.i
+.PHONY : httpHandler/JsonHandler/jsonHandler.i
+
+# target to preprocess a source file
+httpHandler/JsonHandler/jsonHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.i
+.PHONY : httpHandler/JsonHandler/jsonHandler.cpp.i
+
+httpHandler/JsonHandler/jsonHandler.s: httpHandler/JsonHandler/jsonHandler.cpp.s
+.PHONY : httpHandler/JsonHandler/jsonHandler.s
+
+# target to generate assembly for a file
+httpHandler/JsonHandler/jsonHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.s
+.PHONY : httpHandler/JsonHandler/jsonHandler.cpp.s
+
 httpHandler/httpHandler.o: httpHandler/httpHandler.cpp.o
 .PHONY : httpHandler/httpHandler.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... HttpImplementation/httpImplementation.o"
 	@echo "... HttpImplementation/httpImplementation.i"
 	@echo "... HttpImplementation/httpImplementation.s"
+	@echo "... httpHandler/JsonHandler/jsonHandler.o"
+	@echo "... httpHandler/JsonHandler/jsonHandler.i"
+	@echo "... httpHandler/JsonHandler/jsonHandler.s"
 	@echo "... httpHandler/httpHandler.o"
 	@echo "... httpHandler/httpHandler.i"
 	@echo "... httpHandler/httpHandler.s"

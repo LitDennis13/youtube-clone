@@ -1,6 +1,6 @@
-CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.cpp \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.h \
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o: \
+  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.cpp \
+  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -665,7 +665,6 @@ CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__system_error/throw_system_error.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/../HttpImplementation/httpImplementation.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__vector/comparison.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__vector/swap.h \
@@ -681,13 +680,6 @@ CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__vector/pmr.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__vector/erase.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__vector/vector_bool_formatter.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/exception \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__exception/exception_ptr.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__exception/nested_exception.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_polymorphic.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__exception/terminate.h \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/../server/server.h \
-  /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/variant \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/variant.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/add_cv_quals.h \

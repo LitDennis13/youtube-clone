@@ -100,10 +100,24 @@ CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/HttpImplementation/httpImplementation.cpp -o CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.s
 
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o: CMakeFiles/output.dir/flags.make
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.cpp
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o: CMakeFiles/output.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o -MF CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o.d -o CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o -c /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.cpp
+
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.cpp > CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.i
+
+CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/JsonHandler/jsonHandler.cpp -o CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.s
+
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: CMakeFiles/output.dir/flags.make
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.cpp
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o: CMakeFiles/output.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o -MF CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o.d -o CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o -c /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/httpHandler/httpHandler.cpp
 
 CMakeFiles/output.dir/httpHandler/httpHandler.cpp.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/output.dir/httpHandler/httpHandler.cpp.s: cmake_force
 CMakeFiles/output.dir/main.cpp.o: CMakeFiles/output.dir/flags.make
 CMakeFiles/output.dir/main.cpp.o: /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/main.cpp
 CMakeFiles/output.dir/main.cpp.o: CMakeFiles/output.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/output.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/output.dir/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/output.dir/main.cpp.o -MF CMakeFiles/output.dir/main.cpp.o.d -o CMakeFiles/output.dir/main.cpp.o -c /Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/main.cpp
 
 CMakeFiles/output.dir/main.cpp.i: cmake_force
@@ -132,6 +146,7 @@ CMakeFiles/output.dir/main.cpp.s: cmake_force
 output_OBJECTS = \
 "CMakeFiles/output.dir/server/server.cpp.o" \
 "CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o" \
+"CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o" \
 "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o" \
 "CMakeFiles/output.dir/main.cpp.o"
 
@@ -140,11 +155,12 @@ output_EXTERNAL_OBJECTS =
 
 output: CMakeFiles/output.dir/server/server.cpp.o
 output: CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o
+output: CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o
 output: CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o
 output: CMakeFiles/output.dir/main.cpp.o
 output: CMakeFiles/output.dir/build.make
 output: CMakeFiles/output.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable output"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/antwibuadum/Documents/Programming/Projects/youtube-clone/youtube-clone-backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable output"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/output.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

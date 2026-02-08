@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o"
   "CMakeFiles/output.dir/HttpImplementation/httpImplementation.cpp.o.d"
+  "CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o"
+  "CMakeFiles/output.dir/httpHandler/JsonHandler/jsonHandler.cpp.o.d"
   "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o"
   "CMakeFiles/output.dir/httpHandler/httpHandler.cpp.o.d"
   "CMakeFiles/output.dir/main.cpp.o"
