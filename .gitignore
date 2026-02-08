@@ -1,0 +1,26 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/youtube-clone-frontend/node_modules
+/youtube-clone-frontend/.pnp
+/youtube-clone-frontend/.pnp.js
+
+# testing
+/youtube-clone-frontend/coverage
+
+# production
+/youtube-clone-frontend/build
+
+# misc
+/youtube-clone-frontend/.DS_Store
+/youtube-clone-frontend/.env.local
+/youtube-clone-frontend/.env.development.local
+/youtube-clone-frontend/.env.test.local
+/youtube-clone-frontend/.env.production.local
+
+/youtube-clone-frontend/npm-debug.log*
+/youtube-clone-frontend/yarn-debug.log*
+/youtube-clone-frontend/yarn-error.log*
+
+# backend build
+/youtube-clone-backend/build
