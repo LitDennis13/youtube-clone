@@ -53,10 +53,18 @@ enum HTTPHeader {
     Vary,
 };
 
+enum HTTPRequestContentType {
+    TextPlain,
+    ApplicationJson,
+    None,
+};
+
 std::string httpHeaderToString(HTTPHeader header);
 HTTPHeader stringToHTTPHeader(std::string header);
 
 HTTPMethods stringToMethod(std:: string methodSTR);
+
+HTTPRequestContentType stringToRequestContentType(std::string contentTypeSTR);
 
 
 class HttpResponse {
@@ -93,6 +101,7 @@ private:
     std::string requestTarget;
     std::vector<std::pair<HTTPHeader, std::string>> headers;
     std::string content;
+    HTTPRequestContentType contentType;
 
 public:
     HttpRequest();
@@ -100,6 +109,7 @@ public:
 
     HTTPMethods getMethod() const;
     std::string getRequestTarget() const;
+    HTTPRequestContentType getContentType() const;
     
     std::vector<std::pair<HTTPHeader, std::string>> getHeaders() const;
 
@@ -134,6 +144,17 @@ public:
 class HTTPImproperFormat: public std::exception {
 public:
     HTTPImproperFormat();
+
+    const char* what();
+};
+
+class HTTPContentTypeNotRecognized: public std::exception {
+private:
+    std::string errorContentType;
+    std::string returnMessage;
+
+public:
+    HTTPContentTypeNotRecognized(std::string newErrorContentType);
 
     const char* what();
 };

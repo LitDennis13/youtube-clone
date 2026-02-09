@@ -1,4 +1,4 @@
-#include "httpHandler.h"
+#include "endPointerHandler.h"
 #include "../HttpImplementation/httpImplementation.h"
 #include "../server/server.h"
 #include "JsonHandler/jsonHandler.h"
@@ -6,7 +6,7 @@
 #include <vector>
 
 
-std::string httpRequestHandler(std::string rawRequest) {
+std::string endPointerHandler(std::string rawRequest) {
     std::cout << "\n\n\n\n\n\n----------------------------------------------------------Request Start" << std::endl;
     std::cout << rawRequest << std::endl;
     std::cout << "----------------------------------------------------------Request End\n\n" << std::endl;
@@ -27,44 +27,43 @@ std::string httpRequestHandler(std::string rawRequest) {
         response.setStatusCode(HTTPSatusCode::x400);
         std::cout << invldFrmt.what() << std::endl;
         return response.getResponse();
+    } catch (HTTPContentTypeNotRecognized invldContType) {
+        response.setStatusCode(HTTPSatusCode::x400);
+        std::cout << invldContType.what() << std::endl;
+        return response.getResponse();
     }
-    
+
     
     switch (request.getMethod()) {
         case HTTPMethods::GET:
         case HTTPMethods::HEAD: {
             response.setStatusCode(HTTPSatusCode::x200);
             response.setContent("Hello, World!");
-            response.addHeader({HTTPHeader::ContentType, "text/html;charset=utf-8"});
+            response.addHeader({HTTPHeader::ContentType, "text/plain"});
             
             for (const std::pair<HTTPHeader, std::string> &header: request.getHeaders()) {
                 if (header.first == HTTPHeader::Origin) {
                     response.addHeader({HTTPHeader::AccessControlAllowOrigin, header.second});
                 }
-                
             }
-
             break;
         }
         case HTTPMethods::POST: {
             response.setStatusCode(HTTPSatusCode::x204);
             
-            JsonData jsonData(request.getContent());
+            // JsonData jsonData(request.getContent());
             
-            try {
-                std::string username = jsonData["username"];
-                std::string password = jsonData["password"];
-                std::string more = jsonData["more"]["ex3"];
-                std::cout << username << std::endl;
-                std::cout << password << std::endl;
-                std::cout << more << std::endl;
-                // std::cout << jsonData["more"] << std::endl;
-            } catch (JSONFieldDoesNotExist err) {
-                std::cout << err.what() << std::endl;
-            } catch (JSONCannotGetMultiValue err) {
-                std::cout << err.what() << std::endl;
-            }
-
+            // try {
+            //     std::string username = jsonData["username"];
+            //     std::string password = jsonData["password"];
+            
+            //     std::cout << username << std::endl;
+            //     std::cout << password << std::endl;
+            // } catch (JSONFieldDoesNotExist err) {
+            //     std::cout << err.what() << std::endl;
+            // } catch (JSONCannotGetMultiValue err) {
+            //     std::cout << err.what() << std::endl;
+            // }
             
 
             for (const std::pair<HTTPHeader, std::string> &header: request.getHeaders()) {
@@ -110,10 +109,7 @@ std::string httpRequestHandler(std::string rawRequest) {
 
     }
 
-
-
-
-    
+   
 
     std::cout << "----------------------------------------------------------Response Start" << std::endl;
     std::cout << response.getResponse() << std::endl;

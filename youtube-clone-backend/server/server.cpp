@@ -1,5 +1,5 @@
 #include "server.h"
-#include "../HttpHandler/httpHandler.h"
+#include "../EndPointerHandler/endPointerHandler.h"
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -109,7 +109,7 @@ void runServer() {
 
             std::string httpRequest = std::string(buffer, bytesInBuffer);
             
-            std::string httpResponse = httpRequestHandler(httpRequest);
+            std::string httpResponse = endPointerHandler(httpRequest);
             sendStatus = send(newSockFD, httpResponse.c_str(), httpResponse.size(), 0);
             std::cout << "SENT " << sendStatus << " Bytes" << std::endl;
             if (sendStatus == -1) {

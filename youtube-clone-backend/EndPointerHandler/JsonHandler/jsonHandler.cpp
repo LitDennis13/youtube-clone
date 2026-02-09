@@ -76,7 +76,6 @@ JsonDataEntry::operator std::string() const {
 
 JsonData::JsonData(std::string rawJsonData) {
     data = parseJsonData(rawJsonData, true);
-    data.print();
 }
 
 JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false) {
@@ -101,7 +100,6 @@ JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false)
             else if (rawJsonData[characterPointer] == '}') {
                 if (jsonLevelsDeep == 0) {
                     gettingSubJson = false;
-                    std::cout << subJson << std::endl;
                     JsonDataEntry newEntry = parseJsonData(subJson);
                     newEntry.setFieldName(entryName);
                     returnData.addEntry(newEntry);
@@ -169,32 +167,31 @@ JsonDataEntry JsonData::operator[](std::string searchFieldName) const {
 }
 
 
-JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string newNonExsistentField): fieldName(""), nonExsistentField(newNonExsistentField) {
+JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string newNonExsistentField): fieldName(""), nonExsistentField(newNonExsistentField), returnMessage("") {
 }
 
-JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string newFieldName, std::string newNonExsistentField): fieldName(newFieldName), nonExsistentField(newNonExsistentField) {
+JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string newFieldName, std::string newNonExsistentField): fieldName(newFieldName), nonExsistentField(newNonExsistentField), returnMessage("") {
 }
 
 const char* JSONFieldDoesNotExist::what() {
-    if (fieldName == "") returnMessage = "The field " + nonExsistentField + " does not exist.";
-    else returnMessage = "The field " + nonExsistentField + " does not exist in the field " + fieldName + ".";
+    if (fieldName == "") returnMessage = "The field \"" + nonExsistentField + "\" does not exist.";
+    else returnMessage = "The field \"" + nonExsistentField + "\" does not exist in the field \"" + fieldName + "\".";
     return returnMessage.c_str();
 }
 
-JSONCannotGetSingleValue::JSONCannotGetSingleValue(std::string newErrorFieldName): errorFieldName(newErrorFieldName) {
+JSONCannotGetSingleValue::JSONCannotGetSingleValue(std::string newErrorFieldName): errorFieldName(newErrorFieldName), returnMessage("") {
 }
 
 const char* JSONCannotGetSingleValue::what() {
-    returnMessage = "The field " + errorFieldName + " contains a sub json value and cannot return a single value.";
+    returnMessage = "The field \"" + errorFieldName + "\" contains a sub json value and cannot return a single value.";
     return returnMessage.c_str();
 }
 
-JSONCannotGetMultiValue::JSONCannotGetMultiValue(std::string newErrorFieldName): errorFieldName(newErrorFieldName) {
-
+JSONCannotGetMultiValue::JSONCannotGetMultiValue(std::string newErrorFieldName): errorFieldName(newErrorFieldName), returnMessage("") {
 }
 
 const char* JSONCannotGetMultiValue::what() {
-    returnMessage = "The field " + errorFieldName + " is a single value field. Meaning it cannot be used with [].";
+    returnMessage = "The field \"" + errorFieldName + "\" is a single value field. Meaning it cannot be used with [].";
     return returnMessage.c_str();
 }
 

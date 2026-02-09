@@ -14,10 +14,6 @@ function test() {
 	const exampleData = {
 		"username" : "Username Example",
 		"password": "Example Password",
-		"more": {
-			"ex1" : "one",
-			"ex2" : "two",
-		}
 	};
 	fetch("http://localhost:3490", {...fetchOptionsPOST,
 		headers: {

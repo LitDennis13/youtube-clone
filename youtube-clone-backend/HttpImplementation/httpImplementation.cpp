@@ -240,6 +240,18 @@ HTTPMethods stringToMethod(std::string methodSTR) {
     }
 }
 
+HTTPRequestContentType stringToRequestContentType(std::string contentTypeSTR) {
+    if (contentTypeSTR == "text/plain") {
+        return HTTPRequestContentType::TextPlain;
+    }
+    else if (contentTypeSTR == "application/json") {
+        return HTTPRequestContentType::ApplicationJson;
+    }
+    else {
+        throw HTTPContentTypeNotRecognized(contentTypeSTR);
+    }
+}
+
 /* ================================== HttpReponse Implementation ================================== */
 
 HttpResponse::HttpResponse(): statusCode(HTTPSatusCode::x200), headers({}), content("") {
@@ -323,7 +335,7 @@ std::string HttpResponse::getResponse() const {
 
 HttpRequest::HttpRequest() = default;
 
-HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content("") {
+HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content(""), contentType(HTTPRequestContentType::None) {
     bool gotMethod = false;
     bool gotRequestTarget = false;
     std::string methodAsString = "";
@@ -391,6 +403,12 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
     for (; i < request.size(); i++) {
         content += request[i];
     }
+
+    for (const std::pair<HTTPHeader, std::string> &header : headers) {
+        if (header.first == HTTPHeader::ContentType) {
+            contentType = stringToRequestContentType(header.second);
+        }
+    }
 }
 
 HTTPMethods HttpRequest::getMethod() const {
@@ -398,6 +416,9 @@ HTTPMethods HttpRequest::getMethod() const {
 }
 std::string HttpRequest::getRequestTarget() const {
     return requestTarget;
+}
+HTTPRequestContentType HttpRequest::getContentType() const {
+    return contentType;
 }
 
 std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const {
@@ -442,3 +463,12 @@ const char* HTTPImproperFormat::what() {
     return "Improper Request Format";
 }
 
+/* ================================== HTTPContentTypeNotRecognized Exception Class Implementation ================================== */
+
+HTTPContentTypeNotRecognized::HTTPContentTypeNotRecognized(std::string newErrorContentType): errorContentType(newErrorContentType), returnMessage("") {
+}
+
+const char* HTTPContentTypeNotRecognized::what() {
+    returnMessage = "The content type \"" + errorContentType + "\" is not a supported content type.";
+    return returnMessage.c_str();
+}
