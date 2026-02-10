@@ -1,5 +1,5 @@
 #include "server.h"
-#include "../EndPointerHandler/endPointerHandler.h"
+#include "../EndPointHandler/endPointHandler.h"
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>

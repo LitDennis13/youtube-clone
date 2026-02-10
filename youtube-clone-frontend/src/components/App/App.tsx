@@ -15,11 +15,11 @@ function test() {
 		"username" : "Username Example",
 		"password": "Example Password",
 	};
-	fetch("http://localhost:3490", {...fetchOptionsPOST,
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(exampleData),
+	fetch("http://localhost:3490", {...fetchOptionsGET,
+		// headers: {
+		// 	"Content-Type": "application/json",
+		// },
+		// body: JSON.stringify(exampleData),
 	})
 	.then((response) => {
 		return response.text();

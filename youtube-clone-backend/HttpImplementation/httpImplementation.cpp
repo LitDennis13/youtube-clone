@@ -321,7 +321,7 @@ std::string HttpResponse::getResponse() const {
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
         if (header.first == HTTPHeader::ContentType) {
-            response += httpHeaderToString(header.first) + ": " + getContentLength() + CRLF();
+            response += httpHeaderToString(HTTPHeader::ContentLength) + ": " + getContentLength() + CRLF();
         }
         response += httpHeaderToString(header.first) + ": " + header.second + CRLF();
     }
