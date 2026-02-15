@@ -4,17 +4,22 @@
 #include <variant>
 
 class JsonData;
-class JsonDataEntry;
-using JSONValueType = std::variant<std::string, std::vector<JsonDataEntry>>;
+using JSONValueType = std::variant<std::string, std::vector<JsonData>>;
 
-class JsonDataEntry {
+JsonData parseJsonData(std::string rawJsonData, bool start);
+
+std::ostream &operator<<(std::ostream &out, const JsonData &obj);
+
+class JsonData {
 private:
     std::string fieldName;
     JSONValueType fieldValue;
     bool multiValue;
     bool start;
-
-    JsonDataEntry();
+    
+public:
+    JsonData();
+    JsonData(std::string startData);
 
     void setStart(bool newStartValue);
 
@@ -28,27 +33,17 @@ private:
 
     void setFieldValue(std::string newValue);
 
-    void addEntry(JsonDataEntry entry);
+    void addEntry(JsonData entry);
 
     void print() const;
+
+    std::string getJsonAsString() const;
     
-public:
-    JsonDataEntry operator[](std::string searchFieldName) const;
+    JsonData operator[](std::string searchFieldName) const;
 
     operator std::string() const;
 
     friend class JsonData;
-};
-
-class JsonData {
-private:
-    JsonDataEntry data;
-    JsonDataEntry parseJsonData(std::string rawJsonData, bool start);
-    
-public:
-    JsonData(std::string rawJsonData);
-
-    JsonDataEntry operator[](std::string searchFieldName) const;
 };
 
 

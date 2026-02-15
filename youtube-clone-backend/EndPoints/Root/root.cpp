@@ -1,13 +1,13 @@
-#include "rootEndPoint.h"
+#include "root.h"
 #include "../../HttpImplementation/httpImplementation.h"
 
 
-void RootEndPoint::mainFunction() {
+void Root::mainFunction() {
     response.setStatusCode(HTTPSatusCode::x200);
     response.addHeader({HTTPHeader::ContentType, "text/plain"});
     response.setContent("Hello, World!");
 }
 
-void RootEndPoint::requestHeadersToCheck(const std::pair<HTTPHeader, std::string> &header) {
+void Root::requestHeadersToCheck(const std::pair<HTTPHeader, std::string> &header) {
 
 }

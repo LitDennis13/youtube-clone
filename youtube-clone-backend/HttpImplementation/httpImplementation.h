@@ -12,6 +12,7 @@ enum HTTPMethods {
     CONNECT,
     OPTIONS,
     TRACE,
+    NONE,
 };
 
 enum HTTPSatusCode {
@@ -53,7 +54,7 @@ enum HTTPHeader {
     Vary,
 };
 
-enum HTTPRequestContentType {
+enum HTTPContentType {
     TextPlain,
     ApplicationJson,
     None,
@@ -62,9 +63,11 @@ enum HTTPRequestContentType {
 std::string httpHeaderToString(HTTPHeader header);
 HTTPHeader stringToHTTPHeader(std::string header);
 
+std::string methodToString(HTTPMethods method);
 HTTPMethods stringToMethod(std:: string methodSTR);
 
-HTTPRequestContentType stringToRequestContentType(std::string contentTypeSTR);
+std::string contentTypeToString(HTTPContentType contentType);
+HTTPContentType stringToContentType(std::string contentTypeSTR);
 
 
 class HttpResponse {
@@ -101,7 +104,7 @@ private:
     std::string requestTarget;
     std::vector<std::pair<HTTPHeader, std::string>> headers;
     std::string content;
-    HTTPRequestContentType contentType;
+    HTTPContentType contentType;
 
 public:
     HttpRequest();
@@ -109,7 +112,7 @@ public:
 
     HTTPMethods getMethod() const;
     std::string getRequestTarget() const;
-    HTTPRequestContentType getContentType() const;
+    HTTPContentType getContentType() const;
     
     std::vector<std::pair<HTTPHeader, std::string>> getHeaders() const;
 

@@ -1,85 +1,10 @@
-#include "jsonHandler.h"
+#include "jsonData.h"
 #include <iostream>
 #include <vector>
 #include <variant>
 
-JsonDataEntry::JsonDataEntry(): fieldName(""), multiValue(false), start(false) {}
-
-void JsonDataEntry::setStart(bool newStartValue) {
-    start = newStartValue;
-}
-
-void JsonDataEntry::resetAndSetFieldValue() {
-    fieldValue = "";
-}
-void JsonDataEntry::resetAndSetEntries() {
-    fieldValue = std::vector<JsonDataEntry>{};
-    std::get<std::vector<JsonDataEntry>>(fieldValue).clear();
-}
-
-std::string JsonDataEntry::getName() const {
-    return fieldName;
-}
-
-std::string JsonDataEntry::getValue() const {
-    if (multiValue == true) {
-        throw JSONCannotGetSingleValue(fieldName);
-    }
-    return std::get<std::string>(fieldValue);
-}
-
-void JsonDataEntry::setFieldName(std::string newName) {
-    fieldName = newName;
-}
-
-void JsonDataEntry::setFieldValue(std::string newValue) {
-    resetAndSetFieldValue();
-    multiValue = false;
-    fieldValue = newValue;
-}
-
-void JsonDataEntry::addEntry(JsonDataEntry entry) {
-    if (multiValue == false) resetAndSetEntries(); 
-    multiValue = true;
-    
-    std::get<std::vector<JsonDataEntry>>(fieldValue).push_back(entry);
-}
-
-void JsonDataEntry::print() const {
-    if (multiValue) {
-        for (const JsonDataEntry &entry: std::get<std::vector<JsonDataEntry>>(fieldValue)) {
-            entry.print();
-        }
-    }
-    else {
-        std::cout << fieldName << ": " << std::get<std::string>(fieldValue) << std::endl;
-    }
-}
-
-JsonDataEntry JsonDataEntry::operator[](std::string searchFieldName) const {
-    if (multiValue == false) {
-        throw JSONCannotGetMultiValue(fieldName);
-    }
-
-    for (const JsonDataEntry &entry : std::get<std::vector<JsonDataEntry>>(fieldValue)) {
-        if (entry.getName() == searchFieldName) {
-            return entry;
-        }
-    }
-    if (start) throw JSONFieldDoesNotExist(searchFieldName);
-    else throw JSONFieldDoesNotExist(fieldName, searchFieldName);
-}
-
-JsonDataEntry::operator std::string() const {
-    return getValue();
-}
-
-JsonData::JsonData(std::string rawJsonData) {
-    data = parseJsonData(rawJsonData, true);
-}
-
-JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false) {
-    JsonDataEntry returnData;
+JsonData parseJsonData(std::string rawJsonData, bool start=false) {
+    JsonData returnData;
     if (start) returnData.setStart(true);
     bool gettingEntryName = true; // if true it signals we are getting entry name, if false it signals we are getting entry value
     std::string entryName = "";
@@ -100,7 +25,7 @@ JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false)
             else if (rawJsonData[characterPointer] == '}') {
                 if (jsonLevelsDeep == 0) {
                     gettingSubJson = false;
-                    JsonDataEntry newEntry = parseJsonData(subJson);
+                    JsonData newEntry = parseJsonData(subJson);
                     newEntry.setFieldName(entryName);
                     returnData.addEntry(newEntry);
 
@@ -138,7 +63,7 @@ JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false)
                 entryValue.pop_back();
             }
 
-            JsonDataEntry newEntry = JsonDataEntry();
+            JsonData newEntry = JsonData();
             newEntry.setFieldName(entryName);
             newEntry.setFieldValue(entryValue);
 
@@ -162,9 +87,116 @@ JsonDataEntry JsonData::parseJsonData(std::string rawJsonData, bool start=false)
     return returnData;
 }
 
-JsonDataEntry JsonData::operator[](std::string searchFieldName) const {
-    return data[searchFieldName];
+std::ostream &operator<<(std::ostream &out, const JsonData &obj) {
+    out << obj.getValue();
+    return out;
 }
+
+JsonData::JsonData(): fieldName(""), multiValue(false), start(false) {
+}
+
+JsonData::JsonData(std::string startData): fieldName(""), multiValue(false), start(false) {
+    *this = parseJsonData(startData, true);
+}
+
+void JsonData::setStart(bool newStartValue) {
+    start = newStartValue;
+}
+
+void JsonData::resetAndSetFieldValue() {
+    fieldValue = "";
+}
+void JsonData::resetAndSetEntries() {
+    fieldValue = std::vector<JsonData>{};
+    std::get<std::vector<JsonData>>(fieldValue).clear();
+}
+
+std::string JsonData::getName() const {
+    return fieldName;
+}
+
+std::string JsonData::getValue() const {
+    if (multiValue == true) {
+        throw JSONCannotGetSingleValue(fieldName);
+    }
+    return std::get<std::string>(fieldValue);
+}
+
+void JsonData::setFieldName(std::string newName) {
+    fieldName = newName;
+}
+
+void JsonData::setFieldValue(std::string newValue) {
+    resetAndSetFieldValue();
+    multiValue = false;
+    fieldValue = newValue;
+}
+
+void JsonData::addEntry(JsonData entry) {
+    if (multiValue == false) resetAndSetEntries(); 
+    multiValue = true;
+    
+    std::get<std::vector<JsonData>>(fieldValue).push_back(entry);
+}
+
+void JsonData::print() const {
+    if (multiValue) {
+        for (const JsonData &entry: std::get<std::vector<JsonData>>(fieldValue)) {
+            entry.print();
+        }
+    }
+    else {
+        std::cout << fieldName << ": " << std::get<std::string>(fieldValue) << std::endl;
+    }
+}
+
+std::string JsonData::getJsonAsString() const {
+    std::string returnString = "";
+    if (multiValue) {
+        if (!start) {
+            returnString += '\"' + fieldName + "\":";
+        }
+        returnString += "{";
+
+        for (const JsonData &entry : std::get<std::vector<JsonData>>(fieldValue)) {
+            returnString += entry.getJsonAsString() + ',';
+        }
+        returnString.pop_back();
+
+        returnString += "}";
+    }
+    else {
+        std::string localFieldValue = std::get<std::string>(fieldValue);
+        returnString = '\"' + fieldName + "\":";
+        try {
+            stoi(localFieldValue);
+            returnString += localFieldValue;
+        } catch (std::invalid_argument err) {
+            returnString += '\"' + localFieldValue + '\"';
+        }
+    }
+    return returnString;
+}
+
+JsonData JsonData::operator[](std::string searchFieldName) const {
+    if (multiValue == false) {
+        throw JSONCannotGetMultiValue(fieldName);
+    }
+
+    for (const JsonData &entry : std::get<std::vector<JsonData>>(fieldValue)) {
+        if (entry.getName() == searchFieldName) {
+            return entry;
+        }
+    }
+    if (start) throw JSONFieldDoesNotExist(searchFieldName);
+    else throw JSONFieldDoesNotExist(fieldName, searchFieldName);
+}
+
+JsonData::operator std::string() const {
+    return getValue();
+}
+
+
 
 
 JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string newNonExsistentField): fieldName(""), nonExsistentField(newNonExsistentField), returnMessage("") {

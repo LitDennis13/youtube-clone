@@ -3,10 +3,11 @@
 #include "../../HttpImplementation/httpImplementation.h"
 
 
-class RootEndPoint: public EndPointType {
+class Root: public EndPointType {
+private:
     using EndPointType::EndPointType;
-
-    void mainFunction() override;
-
     void requestHeadersToCheck(const std::pair<HTTPHeader, std::string> &header) override;
+
+public:
+    void mainFunction() override;
 };

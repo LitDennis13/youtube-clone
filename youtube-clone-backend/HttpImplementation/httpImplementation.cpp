@@ -209,30 +209,61 @@ HTTPHeader stringToHTTPHeader(std::string header) {
     }
 }
 
-// function will convert the method as a string to a method in the enum type, however if the method is invalid the function throws an error
+std::string methodToString(HTTPMethods method) {
+    switch (method) {
+        case HTTPMethods::GET: {
+            return "GET";
+        }
+        case HTTPMethods::HEAD: {
+            return "HEAD";
+        }
+        case HTTPMethods::POST: {
+            return "POST";
+        }
+        case HTTPMethods::PUT: {
+            return "PUT";
+        }
+        case HTTPMethods::DELETE: {
+            return "DELETE";
+        }
+        case HTTPMethods::CONNECT: {
+            return "CONNECT";
+        }
+        case HTTPMethods::OPTIONS: {
+            return "OPTIONS";
+        }
+        case HTTPMethods::TRACE: {
+            return "TRACE";
+        }
+        case HTTPMethods::NONE: {
+            return "NONE?";
+        }
+    }
+}
+
 HTTPMethods stringToMethod(std::string methodSTR) {
-    if (methodSTR == "GET") {
+    if (methodSTR == methodToString(HTTPMethods::GET)) {
         return HTTPMethods::GET;
     }
-    else if (methodSTR == "HEAD") {
+    else if (methodSTR == methodToString(HTTPMethods::HEAD)) {
         return HTTPMethods::HEAD;
     }
-    else if (methodSTR == "POST") {
+    else if (methodSTR == methodToString(HTTPMethods::POST)) {
         return HTTPMethods::POST;
     }
-    else if (methodSTR == "PUT") {
+    else if (methodSTR == methodToString(HTTPMethods::PUT)) {
         return HTTPMethods::PUT;
     }
-    else if (methodSTR == "DELETE") {
+    else if (methodSTR == methodToString(HTTPMethods::DELETE)) {
         return HTTPMethods::DELETE;
     }
-    else if (methodSTR == "CONNECT") {
+    else if (methodSTR == methodToString(HTTPMethods::CONNECT)) {
         return HTTPMethods::CONNECT;
     }
-    else if (methodSTR == "OPTIONS") {
+    else if (methodSTR == methodToString(HTTPMethods::OPTIONS)) {
         return HTTPMethods::OPTIONS;
     }
-    else if (methodSTR == "TRACE") {
+    else if (methodSTR == methodToString(HTTPMethods::TRACE)) {
         return HTTPMethods::TRACE;
     }
     else {
@@ -240,17 +271,37 @@ HTTPMethods stringToMethod(std::string methodSTR) {
     }
 }
 
-HTTPRequestContentType stringToRequestContentType(std::string contentTypeSTR) {
-    if (contentTypeSTR == "text/plain") {
-        return HTTPRequestContentType::TextPlain;
+
+std::string contentTypeToString(HTTPContentType contentType) {
+    switch (contentType) {
+        case HTTPContentType::TextPlain: {
+            return "text/plain";
+            break;
+        }
+        case HTTPContentType::ApplicationJson: {
+            return "application/json";
+            break;
+        }
+        case HTTPContentType::None: {
+            return "NONE";
+            break;
+        }
+    };
+}
+
+HTTPContentType stringToContentType(std::string contentTypeSTR) {
+    if (contentTypeSTR == contentTypeToString(HTTPContentType::TextPlain)) {
+        return HTTPContentType::TextPlain;
     }
-    else if (contentTypeSTR == "application/json") {
-        return HTTPRequestContentType::ApplicationJson;
+    else if (contentTypeSTR == contentTypeToString(HTTPContentType::ApplicationJson)) {
+        return HTTPContentType::ApplicationJson;
     }
     else {
         throw HTTPContentTypeNotRecognized(contentTypeSTR);
     }
 }
+
+
 
 /* ================================== HttpReponse Implementation ================================== */
 
@@ -335,7 +386,7 @@ std::string HttpResponse::getResponse() const {
 
 HttpRequest::HttpRequest() = default;
 
-HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content(""), contentType(HTTPRequestContentType::None) {
+HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content(""), contentType(HTTPContentType::None) {
     bool gotMethod = false;
     bool gotRequestTarget = false;
     std::string methodAsString = "";
@@ -406,7 +457,7 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
 
     for (const std::pair<HTTPHeader, std::string> &header : headers) {
         if (header.first == HTTPHeader::ContentType) {
-            contentType = stringToRequestContentType(header.second);
+            contentType = stringToContentType(header.second);
         }
     }
 }
@@ -417,7 +468,7 @@ HTTPMethods HttpRequest::getMethod() const {
 std::string HttpRequest::getRequestTarget() const {
     return requestTarget;
 }
-HTTPRequestContentType HttpRequest::getContentType() const {
+HTTPContentType HttpRequest::getContentType() const {
     return contentType;
 }
 
