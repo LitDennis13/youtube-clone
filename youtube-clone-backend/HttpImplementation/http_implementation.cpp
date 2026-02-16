@@ -1,8 +1,8 @@
-#include "httpImplementation.h"
+#include "http_implementation.h"
 #include <iostream>
 #include <vector>
 
-std::string toLower(std::string input) {
+std::string to_lower(std::string input) {
     std::string result = "";
     for (char &c : input) {
         if ((int)c >= 65 && (int)c <= 90) {
@@ -16,7 +16,7 @@ std::string toLower(std::string input) {
     return result;
 }
 
-std::string httpHeaderToString(HTTPHeader header) {
+std::string http_header_to_string(HTTPHeader header) {
     switch (header) {
         case HTTPHeader::Accept: {
             return "Accept";
@@ -129,87 +129,87 @@ std::string httpHeaderToString(HTTPHeader header) {
     }
 }
 
-HTTPHeader stringToHTTPHeader(std::string header) {
-    std::string lHeader = toLower(header);
+HTTPHeader string_to_http_header(std::string header_str) {
+    std::string l_header = to_lower(header_str);
     
-    if (lHeader == toLower(httpHeaderToString(HTTPHeader::Accept))) {
+    if (l_header == to_lower(http_header_to_string(HTTPHeader::Accept))) {
         return HTTPHeader::Accept;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AcceptEncoding))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::AcceptEncoding))) {
         return HTTPHeader::AcceptEncoding;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AcceptLanguage))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::AcceptLanguage))) {
         return HTTPHeader::AcceptLanguage;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlRequestHeaders))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::AccessControlRequestHeaders))) {
         return HTTPHeader::AccessControlRequestHeaders;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlRequestMethod))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::AccessControlRequestMethod))) {
         return HTTPHeader::AccessControlRequestMethod;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::AccessControlAllowOrigin))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::AccessControlAllowOrigin))) {
         return HTTPHeader::AccessControlAllowOrigin;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::CacheControl))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::CacheControl))) {
         return HTTPHeader::CacheControl;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Connection))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::Connection))) {
         return HTTPHeader::Connection;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::ContentType))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::ContentType))) {
         return HTTPHeader::ContentType;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::ContentLength))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::ContentLength))) {
         return HTTPHeader::ContentLength;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Host))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::Host))) {
         return HTTPHeader::Host;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Referer))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::Referer))) {
         return HTTPHeader::Referer;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Origin))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::Origin))) {
         return HTTPHeader::Origin;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::PostmanToken))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::PostmanToken))) {
         return HTTPHeader::PostmanToken;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUa))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecChUa))) {
         return HTTPHeader::SecChUa;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUaPlatform))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecChUaPlatform))) {
         return HTTPHeader::SecChUaPlatform;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecChUaMobile))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecChUaMobile))) {
         return HTTPHeader::SecChUaMobile;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchMode))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecFetchMode))) {
         return HTTPHeader::SecFetchMode;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchSite))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecFetchSite))) {
         return HTTPHeader::SecFetchSite;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchDest))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecFetchDest))) {
         return HTTPHeader::SecFetchDest;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::SecFetchUser))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::SecFetchUser))) {
         return HTTPHeader::SecFetchUser;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::UpgradeInsecureRequests))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::UpgradeInsecureRequests))) {
         return HTTPHeader::UpgradeInsecureRequests;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::UserAgent))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::UserAgent))) {
         return HTTPHeader::UserAgent;
     }
-    else if (lHeader == toLower(httpHeaderToString(HTTPHeader::Vary))) {
+    else if (l_header == to_lower(http_header_to_string(HTTPHeader::Vary))) {
         return HTTPHeader::Vary;
     }
     else {
-        throw HTTPInvalidHeader(lHeader);
+        throw HTTPInvalidHeader(l_header);
     }
 }
 
-std::string methodToString(HTTPMethods method) {
+std::string method_to_string(HTTPMethods method) {
     switch (method) {
         case HTTPMethods::GET: {
             return "GET";
@@ -241,39 +241,38 @@ std::string methodToString(HTTPMethods method) {
     }
 }
 
-HTTPMethods stringToMethod(std::string methodSTR) {
-    if (methodSTR == methodToString(HTTPMethods::GET)) {
+HTTPMethods string_to_method(std::string method_str) {
+    if (method_str == method_to_string(HTTPMethods::GET)) {
         return HTTPMethods::GET;
     }
-    else if (methodSTR == methodToString(HTTPMethods::HEAD)) {
+    else if (method_str == method_to_string(HTTPMethods::HEAD)) {
         return HTTPMethods::HEAD;
     }
-    else if (methodSTR == methodToString(HTTPMethods::POST)) {
+    else if (method_str == method_to_string(HTTPMethods::POST)) {
         return HTTPMethods::POST;
     }
-    else if (methodSTR == methodToString(HTTPMethods::PUT)) {
+    else if (method_str == method_to_string(HTTPMethods::PUT)) {
         return HTTPMethods::PUT;
     }
-    else if (methodSTR == methodToString(HTTPMethods::DELETE)) {
+    else if (method_str == method_to_string(HTTPMethods::DELETE)) {
         return HTTPMethods::DELETE;
     }
-    else if (methodSTR == methodToString(HTTPMethods::CONNECT)) {
+    else if (method_str == method_to_string(HTTPMethods::CONNECT)) {
         return HTTPMethods::CONNECT;
     }
-    else if (methodSTR == methodToString(HTTPMethods::OPTIONS)) {
+    else if (method_str == method_to_string(HTTPMethods::OPTIONS)) {
         return HTTPMethods::OPTIONS;
     }
-    else if (methodSTR == methodToString(HTTPMethods::TRACE)) {
+    else if (method_str == method_to_string(HTTPMethods::TRACE)) {
         return HTTPMethods::TRACE;
     }
     else {
-        throw HTTPInvalidMethod(methodSTR);
+        throw HTTPInvalidMethod(method_str);
     }
 }
 
-
-std::string contentTypeToString(HTTPContentType contentType) {
-    switch (contentType) {
+std::string content_type_to_string(HTTPContentType content_type) {
+    switch (content_type) {
         case HTTPContentType::TextPlain: {
             return "text/plain";
             break;
@@ -289,15 +288,15 @@ std::string contentTypeToString(HTTPContentType contentType) {
     };
 }
 
-HTTPContentType stringToContentType(std::string contentTypeSTR) {
-    if (contentTypeSTR == contentTypeToString(HTTPContentType::TextPlain)) {
+HTTPContentType string_to_content_type(std::string content_type_str) {
+    if (content_type_str == content_type_to_string(HTTPContentType::TextPlain)) {
         return HTTPContentType::TextPlain;
     }
-    else if (contentTypeSTR == contentTypeToString(HTTPContentType::ApplicationJson)) {
+    else if (content_type_str == content_type_to_string(HTTPContentType::ApplicationJson)) {
         return HTTPContentType::ApplicationJson;
     }
     else {
-        throw HTTPContentTypeNotRecognized(contentTypeSTR);
+        throw HTTPContentTypeNotRecognized(content_type_str);
     }
 }
 
@@ -305,21 +304,21 @@ HTTPContentType stringToContentType(std::string contentTypeSTR) {
 
 /* ================================== HttpReponse Implementation ================================== */
 
-HttpResponse::HttpResponse(): statusCode(HTTPSatusCode::x200), headers({}), content("") {
+HttpResponse::HttpResponse(): status_code(HTTPSatusCode::x200), headers({}), content("") {
 }
 
-void HttpResponse::setStatusCode(HTTPSatusCode newStatusCode) {
-    statusCode = newStatusCode;
+void HttpResponse::set_status_code(HTTPSatusCode new_status_code) {
+    status_code = new_status_code;
 }
 
 std::string HttpResponse::CRLF() const {
     return "\r\n";
 }
 
-std::string HttpResponse::getStatusLine() const {
+std::string HttpResponse::get_status_line() const {
     std::string line = "HTTP/1.1 ";
 
-    switch (statusCode) {
+    switch (status_code) {
         case HTTPSatusCode::x200: {
             line += "200 OK";
             break;
@@ -351,30 +350,30 @@ std::string HttpResponse::getStatusLine() const {
     return line;
 }
 
-std::string HttpResponse::getContentLength() const {
+std::string HttpResponse::get_content_length() const {
     return std::to_string(content.size());
 }
 
-void HttpResponse::setHeaders(std::vector<std::pair<HTTPHeader, std::string>> newHeaders) {
-    headers = newHeaders;
+void HttpResponse::set_headers(std::vector<std::pair<HTTPHeader, std::string>> new_headers) {
+    headers = new_headers;
 }
 
-void HttpResponse::addHeader(std::pair<HTTPHeader, std::string> newHeader) {
-    headers.push_back(newHeader);
+void HttpResponse::add_header(std::pair<HTTPHeader, std::string> new_header) {
+    headers.push_back(new_header);
 }
 
-void HttpResponse::setContent(std::string newContent) {
-    content = newContent;
+void HttpResponse::set_content(std::string new_content) {
+    content = new_content;
 }
 
-std::string HttpResponse::getResponse() const { 
-    std::string response = getStatusLine() + CRLF();
+std::string HttpResponse::get_response() const { 
+    std::string response = get_status_line() + CRLF();
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
         if (header.first == HTTPHeader::ContentType) {
-            response += httpHeaderToString(HTTPHeader::ContentLength) + ": " + getContentLength() + CRLF();
+            response += http_header_to_string(HTTPHeader::ContentLength) + ": " + get_content_length() + CRLF();
         }
-        response += httpHeaderToString(header.first) + ": " + header.second + CRLF();
+        response += http_header_to_string(header.first) + ": " + header.second + CRLF();
     }
     response += CRLF() + content;
 
@@ -386,68 +385,68 @@ std::string HttpResponse::getResponse() const {
 
 HttpRequest::HttpRequest() = default;
 
-HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), requestTarget(""), headers({}), content(""), contentType(HTTPContentType::None) {
-    bool gotMethod = false;
-    bool gotRequestTarget = false;
-    std::string methodAsString = "";
+HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request_target(""), headers({}), content(""), content_type(HTTPContentType::None) {
+    bool got_method = false;
+    bool got_request_target = false;
+    std::string method_as_string = "";
 
-    bool foundColon = false;
-    bool foundCRLF = false;
-    std::string headerField = "";
-    std::string headerValue = "";
+    bool found_colon = false;
+    bool found_CRLF = false;
+    std::string header_field = "";
+    std::string header_value = "";
 
-    bool foundHeadersEnd = false;
+    bool found_headers_end = false;
 
     int i = 0;
     for (; i < request.size(); i++) {
         if (request[i] == ' ') {
-            if (!gotMethod) gotMethod = true;
-            else if (!gotRequestTarget) gotRequestTarget = true;
+            if (!got_method) got_method = true;
+            else if (!got_request_target) got_request_target = true;
         }
         else if (request[i] == '\r' && request[i+1] == '\n') {
             i += 2;
             break;
         }
-        else if (!gotMethod) {
-            methodAsString += request[i];
+        else if (!got_method) {
+            method_as_string += request[i];
         }
-        else if (!gotRequestTarget) {
-            requestTarget += request[i];
+        else if (!got_request_target) {
+            request_target += request[i];
         }
     }
 
-    method = stringToMethod(methodAsString);
+    method = string_to_method(method_as_string);
 
     for (; i < request.size(); i++) {
         if (i+1 < request.size() && request[i] == '\r' && request[i+1] == '\n') {            
-            if (headerValue[0] == ' ') headerValue.erase(headerValue.begin());
-            if (headerValue[headerValue.size() - 1] == ' ') headerValue.erase(headerValue.end());
+            if (header_value[0] == ' ') header_value.erase(header_value.begin());
+            if (header_value[header_value.size() - 1] == ' ') header_value.erase(header_value.end());
             
-            headers.push_back({stringToHTTPHeader(headerField), headerValue});
+            headers.push_back({string_to_http_header(header_field), header_value});
 
             i++;
             if (i+2 < request.size() && request[i+1] == '\r' && request[i+2] == '\n') {
                 i += 3;
-                foundHeadersEnd = true;
+                found_headers_end = true;
                 break;
             }
             
-            headerField = "";
-            headerValue = "";
-            foundColon = false;
+            header_field = "";
+            header_value = "";
+            found_colon = false;
         }
-        else if (request[i] == ':' && foundColon != true) {
-            foundColon = true;
+        else if (request[i] == ':' && found_colon != true) {
+            found_colon = true;
         }
-        else if (!foundColon) {
-            headerField += request[i];
+        else if (!found_colon) {
+            header_field += request[i];
         }
         else {
-            headerValue += request[i];
+            header_value += request[i];
         }
     }
 
-    if (!foundHeadersEnd) {
+    if (!found_headers_end) {
         throw HTTPImproperFormat();
     }
 
@@ -457,26 +456,26 @@ HttpRequest::HttpRequest(std::string request): method(HTTPMethods::GET), request
 
     for (const std::pair<HTTPHeader, std::string> &header : headers) {
         if (header.first == HTTPHeader::ContentType) {
-            contentType = stringToContentType(header.second);
+            content_type = string_to_content_type(header.second);
         }
     }
 }
 
-HTTPMethods HttpRequest::getMethod() const {
+HTTPMethods HttpRequest::get_method() const {
     return method;
 }
-std::string HttpRequest::getRequestTarget() const {
-    return requestTarget;
+std::string HttpRequest::get_request_target() const {
+    return request_target;
 }
-HTTPContentType HttpRequest::getContentType() const {
-    return contentType;
+HTTPContentType HttpRequest::get_content_type() const {
+    return content_type;
 }
 
-std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::getHeaders() const {
+std::vector<std::pair<HTTPHeader, std::string>> HttpRequest::get_headers() const {
     return headers;
 }
 
-std::string HttpRequest::getContent() const {
+std::string HttpRequest::get_content() const {
     return content;
 }
 
@@ -487,8 +486,8 @@ HTTPInvalidHeader::HTTPInvalidHeader() {
     specific = "";
 }
 
-HTTPInvalidHeader::HTTPInvalidHeader(std::string inputtedHeader): HTTPInvalidHeader()  {
-    specific = "HTTP header \"" + inputtedHeader + "\" is not implemented or is invalid";
+HTTPInvalidHeader::HTTPInvalidHeader(std::string inputted_header): HTTPInvalidHeader()  {
+    specific = "HTTP header \"" + inputted_header + "\" is not implemented or is invalid";
 }
 
 const char* HTTPInvalidHeader::what() {
@@ -498,8 +497,8 @@ const char* HTTPInvalidHeader::what() {
 
 /* ================================== HTTPInvalidHeader Exception Class Implementation ================================== */
 
-HTTPInvalidMethod::HTTPInvalidMethod(std::string inputtedMethod) {
-    specific = "HTTP method \"" + inputtedMethod + "\" is not implemented or is invalid";
+HTTPInvalidMethod::HTTPInvalidMethod(std::string inputted_method) {
+    specific = "HTTP method \"" + inputted_method + "\" is not implemented or is invalid";
 }
 
 const char* HTTPInvalidMethod::what() {
@@ -516,10 +515,10 @@ const char* HTTPImproperFormat::what() {
 
 /* ================================== HTTPContentTypeNotRecognized Exception Class Implementation ================================== */
 
-HTTPContentTypeNotRecognized::HTTPContentTypeNotRecognized(std::string newErrorContentType): errorContentType(newErrorContentType), returnMessage("") {
+HTTPContentTypeNotRecognized::HTTPContentTypeNotRecognized(std::string new_error_content_type): error_content_type(new_error_content_type), return_message("") {
 }
 
 const char* HTTPContentTypeNotRecognized::what() {
-    returnMessage = "The content type \"" + errorContentType + "\" is not a supported content type.";
-    return returnMessage.c_str();
+    return_message = "The content type \"" + error_content_type + "\" is not a supported content type.";
+    return return_message.c_str();
 }

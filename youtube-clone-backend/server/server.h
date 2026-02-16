@@ -7,4 +7,4 @@ const int BACK_LOG = 128;
 
 const int BUFFER_LEN = 8192;
 
-void runServer();
+void run_server();

@@ -3,7 +3,7 @@
 #include "../../HttpImplementation/http_implementation.h"
 
 
-class Root: public EndPointType {
+class NotFound: public EndPointType {
 private:
     using EndPointType::EndPointType;
     void request_headers_to_check(const std::pair<HTTPHeader, std::string> &header) override;

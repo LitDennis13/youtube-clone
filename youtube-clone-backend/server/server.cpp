@@ -1,5 +1,5 @@
 #include "server.h"
-#include "../EndPointHandler/endPointHandler.h"
+#include "../EndPointHandler/end_point_handler.h"
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -10,30 +10,30 @@
 #include <signal.h>
 
 
-void displayErrnoAndExit();
+void display_errno_and_exit();
 
-void sigchldHandler(int sig);
+void sigchld_handler(int sig);
 
-void runServer() {
+void run_server() {
     int yes = 1;
 
-    int addrInfoStatus;
-    int setSockOptStatus;
-    int bindStatus;
-    int listenStatus;
-    int sendStatus;
-    int sigActionStatus;
-    int sockFD;
-    int newSockFD;
+    int addr_info_status;
+    int set_sock_opt_status;
+    int bind_status;
+    int listen_status;
+    int send_status;
+    int sig_action_status;
+    int sock_fd;
+    int new_sock_fd;
 
     addrinfo hints;
     addrinfo* results = nullptr;
 
-    sockaddr_storage connectedAddress;
-    socklen_t connectedAddressLen = (socklen_t)sizeof(sockaddr_storage);
+    sockaddr_storage connected_Address;
+    socklen_t connected_address_len = (socklen_t)sizeof(sockaddr_storage);
 
     char buffer[BUFFER_LEN];
-    int bytesInBuffer = 0;
+    int bytes_in_buffer = 0;
 
     struct sigaction sa;
 
@@ -43,29 +43,29 @@ void runServer() {
     hints.ai_flags = AI_PASSIVE;
 
     
-    addrInfoStatus = getaddrinfo(nullptr, PORT.c_str(), &hints, &results);
+    addr_info_status = getaddrinfo(nullptr, PORT.c_str(), &hints, &results);
 
-    if (addrInfoStatus != 0) {
-        std::cout << "Get Address Info Error: " << gai_strerror(addrInfoStatus) << std::endl;
+    if (addr_info_status != 0) {
+        std::cout << "Get Address Info Error: " << gai_strerror(addr_info_status) << std::endl;
     }
 
     addrinfo* p = nullptr;
     for (p = results; p != nullptr; p = p->ai_next) {
-        sockFD = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-        if (sockFD == -1) {
+        sock_fd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        if (sock_fd == -1) {
             std::cout << "Error: could not get socket file descriptor" << std::endl;
             continue;
         }
 
-        setSockOptStatus = setsockopt(sockFD, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
-        if (setSockOptStatus == -1) {
+        set_sock_opt_status = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+        if (set_sock_opt_status == -1) {
             std::cout << "Error: could not set socket option" << std::endl;
-            displayErrnoAndExit();
+            display_errno_and_exit();
         }
 
-        bindStatus = bind(sockFD, p->ai_addr, p->ai_addrlen);
-        if (bindStatus == -1) {
-            close(sockFD);
+        bind_status = bind(sock_fd, p->ai_addr, p->ai_addrlen);
+        if (bind_status == -1) {
+            close(sock_fd);
             std::cout << "Error: could not bind socket" << std::endl;
             continue;
         }
@@ -76,61 +76,61 @@ void runServer() {
 
     if (p == nullptr) {
         std::cout << "Error: server could not bind" << std::endl;
-        displayErrnoAndExit();
+        display_errno_and_exit();
     }
 
-    listenStatus = listen(sockFD, BACK_LOG);
-    if (listenStatus == -1) {
+    listen_status = listen(sock_fd, BACK_LOG);
+    if (listen_status == -1) {
         std::cout << "Error: could not listen" << std::endl;
-        displayErrnoAndExit();
+        display_errno_and_exit();
     }
     
-    sa.sa_handler = sigchldHandler;
+    sa.sa_handler = sigchld_handler;
     sa.sa_flags = SA_RESTART;
-    sigActionStatus = sigaction(SIGCHLD, &sa, nullptr);
+    sig_action_status = sigaction(SIGCHLD, &sa, nullptr);
 
-    if (sigActionStatus == -1) {
+    if (sig_action_status == -1) {
         std::cout << "Error: Sigaction" << std::endl;
-        displayErrnoAndExit();
+        display_errno_and_exit();
     }
 
     while (true) {
-        connectedAddressLen = (socklen_t)sizeof(sockaddr_storage);
-        newSockFD = accept(sockFD, (sockaddr*)&connectedAddress, &connectedAddressLen);
-        if (newSockFD == -1) {
+        connected_address_len = (socklen_t)sizeof(sockaddr_storage);
+        new_sock_fd = accept(sock_fd, (sockaddr*)&connected_Address, &connected_address_len);
+        if (new_sock_fd == -1) {
             std::cout << "Error: could not accept" << std::endl;
         }
 
         if (!fork()) {
-            close(sockFD);
+            close(sock_fd);
             memset(buffer, 0, BUFFER_LEN);
-            bytesInBuffer = recv(newSockFD, &buffer, BUFFER_LEN, 0);
-            if (bytesInBuffer == 0) std::cout << "Empty Message Recieved" << std::endl;
+            bytes_in_buffer = recv(new_sock_fd, &buffer, BUFFER_LEN, 0);
+            if (bytes_in_buffer == 0) std::cout << "Empty Message Recieved" << std::endl;
 
-            std::string httpRequest = std::string(buffer, bytesInBuffer);
+            std::string http_request = std::string(buffer, bytes_in_buffer);
             
-            std::string httpResponse = endPointHandler(httpRequest);
-            sendStatus = send(newSockFD, httpResponse.c_str(), httpResponse.size(), 0);
-            std::cout << "SENT " << sendStatus << " Bytes" << std::endl;
-            if (sendStatus == -1) {
+            std::string http_response = end_point_handler(http_request);
+            send_status = send(new_sock_fd, http_response.c_str(), http_response.size(), 0);
+            std::cout << "SENT " << send_status << " Bytes" << std::endl;
+            if (send_status == -1) {
                 std::cout << "Error: could not send data" << std::endl;
-                displayErrnoAndExit();
+                display_errno_and_exit();
             }
 
-            close(newSockFD);
+            close(new_sock_fd);
             exit(0);
         }
-        close(newSockFD);
+        close(new_sock_fd);
     }    
 }
 
 
-void displayErrnoAndExit() {
+void display_errno_and_exit() {
     std::cout << "Errno Code: " << errno << std::endl;
     exit(1);
 }
 
-void sigchldHandler(int sig) {
+void sigchld_handler(int sig) {
     int oldErrno = errno;
     while (waitpid(-1, nullptr, WNOHANG) > 0);
     errno = oldErrno;

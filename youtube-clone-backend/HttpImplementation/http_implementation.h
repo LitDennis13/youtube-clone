@@ -60,19 +60,19 @@ enum HTTPContentType {
     None,
 };
 
-std::string httpHeaderToString(HTTPHeader header);
-HTTPHeader stringToHTTPHeader(std::string header);
+std::string http_header_to_string(HTTPHeader header);
+HTTPHeader string_to_http_header(std::string header_str);
 
-std::string methodToString(HTTPMethods method);
-HTTPMethods stringToMethod(std:: string methodSTR);
+std::string method_to_string(HTTPMethods method);
+HTTPMethods string_to_method(std:: string method_str);
 
-std::string contentTypeToString(HTTPContentType contentType);
-HTTPContentType stringToContentType(std::string contentTypeSTR);
+std::string content_type_to_string(HTTPContentType content_type);
+HTTPContentType string_to_content_type(std::string content_type_str);
 
 
 class HttpResponse {
 private:
-    HTTPSatusCode statusCode;
+    HTTPSatusCode status_code;
 
     std::vector<std::pair<HTTPHeader, std::string>> headers;
 
@@ -80,43 +80,43 @@ private:
 
     std::string CRLF() const;
 
-    std::string getStatusLine() const;
+    std::string get_status_line() const;
 
-    std::string getContentLength() const;
+    std::string get_content_length() const;
 
 public:
     HttpResponse();
 
-    void setStatusCode(HTTPSatusCode newCode);
+    void set_status_code(HTTPSatusCode new_code);
 
-    void setHeaders(std::vector<std::pair<HTTPHeader, std::string>> newHeaders);
-    void addHeader(std::pair<HTTPHeader, std::string> newHeader);
+    void set_headers(std::vector<std::pair<HTTPHeader, std::string>> new_headers);
+    void add_header(std::pair<HTTPHeader, std::string> new_header);
 
-    void setContent(std::string newContent);
+    void set_content(std::string newContent);
 
-    std::string getResponse() const;
+    std::string get_response() const;
 
 };
 
 class HttpRequest {
 private:
     HTTPMethods method;
-    std::string requestTarget;
+    std::string request_target;
     std::vector<std::pair<HTTPHeader, std::string>> headers;
     std::string content;
-    HTTPContentType contentType;
+    HTTPContentType content_type;
 
 public:
     HttpRequest();
     HttpRequest(std::string request);
 
-    HTTPMethods getMethod() const;
-    std::string getRequestTarget() const;
-    HTTPContentType getContentType() const;
+    HTTPMethods get_method() const;
+    std::string get_request_target() const;
+    HTTPContentType get_content_type() const;
     
-    std::vector<std::pair<HTTPHeader, std::string>> getHeaders() const;
+    std::vector<std::pair<HTTPHeader, std::string>> get_headers() const;
 
-    std::string getContent() const;
+    std::string get_content() const;
 };
 
 
@@ -129,7 +129,7 @@ private:
 
 public:
     HTTPInvalidHeader();
-    HTTPInvalidHeader(std::string inputtedHeader);
+    HTTPInvalidHeader(std::string inputted_header);
 
     const char* what();
 };
@@ -139,7 +139,7 @@ private:
     std::string specific;
 
 public:
-    HTTPInvalidMethod(std::string inputtedMethod);
+    HTTPInvalidMethod(std::string inputted_method);
 
     const char* what();
 };
@@ -153,11 +153,11 @@ public:
 
 class HTTPContentTypeNotRecognized: public std::exception {
 private:
-    std::string errorContentType;
-    std::string returnMessage;
+    std::string error_content_type;
+    std::string return_message;
 
 public:
-    HTTPContentTypeNotRecognized(std::string newErrorContentType);
+    HTTPContentTypeNotRecognized(std::string new_error_content_type);
 
     const char* what();
 };

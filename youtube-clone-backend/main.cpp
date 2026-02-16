@@ -1,6 +1,6 @@
-#include "server/server.h"
+#include "Server/server.h"
 
 int main() {
-    runServer();
+    run_server();
     return 0;
 }
