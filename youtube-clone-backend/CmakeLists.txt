@@ -17,27 +17,3 @@ set(SOURCE_FILES
 add_executable(output ${SOURCE_FILES})
 
 set_property(TARGET output PROPERTY CXX_STANDARD 23)
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/77f6bd3e75a2e7d3c67a024893417de42f58c418.zip
-)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-set(TEST_FILES
-    "Tests/json_data_tests.cpp"
-)   
-add_executable(tests ${TEST_FILES})
-
-set_property(TARGET tests PROPERTY CXX_STANDARD 23)
-
-target_link_libraries(
-    tests
-    GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(tests)

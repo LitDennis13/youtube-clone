@@ -14,6 +14,13 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
     std::string sub_json = "";
     int json_levels_deep = -1;
 
+    auto contains_quote = [](std::string str) {
+        for (int i = 0; i < str.size(); i++) {
+            if (str[i-1] != '\\' && str[i] == '\"') return true;
+        }
+        return false;
+    };
+
     int character_pointer = 2; // start at the first character in a json string
     while (character_pointer < raw_json_data.size()) {
         if (getting_sub_json) {
@@ -43,15 +50,18 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
             character_pointer++;                
         }
         else if (getting_entry_name && raw_json_data[character_pointer] == '\"' && raw_json_data[character_pointer - 1] != '\\') { // getting here means we are at the end of an entry name
-            if (getting_entry_name) { 
-                if (raw_json_data[character_pointer+1] == ':' && raw_json_data[character_pointer+2] == '{') {
+            if (raw_json_data[character_pointer+1] != ':' || 
+                (raw_json_data[character_pointer+2] != '\"' && raw_json_data[character_pointer+2] != '{')) {
+                throw JSONImproperFormat();
+            }
+
+            if (raw_json_data[character_pointer+2] == '{') {
                     getting_sub_json = true;
                     character_pointer += 2;
                 }
-                else {
-                    getting_entry_name = false;
-                    character_pointer += 2;
-                }
+            else {
+                getting_entry_name = false;
+                character_pointer += 2;
             }
         }
         else if (!getting_entry_name && (raw_json_data[character_pointer] == ',' || raw_json_data[character_pointer] == '}')
@@ -69,10 +79,16 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
 
             return_data.add_entry(new_entry);
 
+        
+            character_pointer += 2;
+            if (contains_quote(entry_name) || contains_quote(entry_value) ||
+            (raw_json_data[character_pointer - 2] == ',' && raw_json_data[character_pointer - 1] != '\"') || 
+            ((character_pointer - 2 == raw_json_data.size() - 1) && raw_json_data[character_pointer - 2] != '}')) {
+                throw JSONImproperFormat();
+            }
+
             entry_name = "";
             entry_value = "";
-
-            character_pointer += 2;
         }
         else if (getting_entry_name) {
             entry_name += raw_json_data[character_pointer];
@@ -82,6 +98,15 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
             entry_value += raw_json_data[character_pointer];
             character_pointer++;
         }
+    }
+
+    if (raw_json_data[0] != '{' ||
+        raw_json_data[1] != '\"' ||
+        raw_json_data[raw_json_data.size() - 1] != '}' ||
+        raw_json_data[character_pointer - 2] != '}' ||
+        getting_entry_name != true
+        ) {
+        throw JSONImproperFormat();
     }
 
     return return_data;
@@ -196,7 +221,13 @@ JsonData::operator std::string() const {
     return get_value();
 }
 
+JSONImproperFormat::JSONImproperFormat() {
+}
 
+const char* JSONImproperFormat::what() {
+    return_message = "Inputted JSON string had improper JSON format and could not be parsed.";
+    return return_message.c_str();
+}
 
 
 JSONFieldDoesNotExist::JSONFieldDoesNotExist(std::string new_non_exsistent_field): field_name(""), non_exsistent_field(new_non_exsistent_field), return_message("") {

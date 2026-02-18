@@ -1,7 +1,182 @@
+#include <iostream>
 #include <gtest/gtest.h>
+#include "../JsonData/json_data.h"
+//{"username":"Username Example","password":"Example Password"}
+class JsonDataTest: public testing::Test {
+protected:
+    JsonData test_1;
+    JsonData test_2;
 
-const std::string JSON_DATA_TESTS = "Json Data Tests";
+    JsonDataTest() {
+        test_1 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\"}");
+        test_2 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\",\"epic\":{\"one\":\"games\",\"two\":\"epic\",\"three\":{\"foo\":\"bar\",\"baz\":{\"foo\":\"bar\"}}}}");
+    }
 
-TEST(JsonDataTests, example) {
-    EXPECT_EQ(3*3, 9);
+};
+
+TEST_F(JsonDataTest, ProperJsonFormat1) {
+    try {
+        test_2 = JsonData("{\"hello\":\"939393\",\"x\":{\"one\":\"two\"},\"g\":\"t\"}");
+    } catch (JSONImproperFormat err) { 
+        FAIL();
+    }
 }
+
+TEST_F(JsonDataTest, ProperJsonReturnFormat1) {
+    EXPECT_STREQ(test_1.get_json_as_string().c_str(), "{\"username\":\"Username Example\",\"password\":\"Example Password\"}");
+}
+TEST_F(JsonDataTest, ProperJsonReturnFormat2) {
+    EXPECT_STREQ(test_2.get_json_as_string().c_str(), "{\"username\":\"Username Example\",\"password\":\"Example Password\",\"epic\":{\"one\":\"games\",\"two\":\"epic\",\"three\":{\"foo\":\"bar\",\"baz\":{\"foo\":\"bar\"}}}}");
+}
+
+TEST_F(JsonDataTest, AccessWorks1) {
+    EXPECT_STREQ(test_1["username"].get_value().c_str(), "Username Example");
+}
+TEST_F(JsonDataTest, AccessWorks2) {
+    EXPECT_STREQ(test_2["epic"]["three"]["baz"]["foo"].get_value().c_str(), "bar");
+}
+
+TEST_F(JsonDataTest, AddingEntry1) {
+    JsonData example = JsonData();
+    example.set_field_name("Testing Field");
+    example.set_field_value("example for testing purpose");
+    test_1.add_entry(example);
+    EXPECT_STREQ(test_1["Testing Field"].get_value().c_str(), "example for testing purpose");
+}
+
+TEST_F(JsonDataTest, AddingEntry2) {
+    JsonData ex = JsonData();
+    ex.set_field_name("Testing Field");
+
+    JsonData example1 = JsonData();
+    example1.set_field_name("Testing Field");
+    example1.set_field_value("example for testing purpose");
+    ex.add_entry(example1);
+
+    JsonData example2 = JsonData();
+    example2.set_field_name("Testing Field Two");
+    example2.set_field_value("example for testing purpose Two");
+    ex.add_entry(example2);
+
+    JsonData example3 = JsonData();
+    example3.set_field_name("Testing Field Three");
+    example3.set_field_value("example for testing purpose Three");
+    ex.add_entry(example3);
+
+    test_1.add_entry(ex);
+
+
+    EXPECT_STREQ(test_1["Testing Field"]["Testing Field Three"].get_value().c_str(), "example for testing purpose Three");
+}
+
+TEST_F(JsonDataTest, AddingEntry3) {
+    JsonData ex = JsonData();
+    ex.set_field_name("Testing Field");
+
+    JsonData example1 = JsonData();
+    example1.set_field_name("Testing Field");
+    example1.set_field_value("example for testing purpose");
+    ex.add_entry(example1);
+
+    JsonData example2 = JsonData();
+    example2.set_field_name("Testing Field Two");
+    example2.set_field_value("example for testing purpose Two");
+    ex.add_entry(example2);
+
+    JsonData example3 = JsonData();
+    example3.set_field_name("Testing Field Three");
+
+    JsonData one = JsonData();
+    one.set_field_name("One");
+    one.set_field_value("Number One");
+    example3.add_entry(one);
+
+    JsonData two = JsonData();
+    two.set_field_name("Two");
+    two.set_field_value("Number Two");
+    example3.add_entry(two);
+    
+    
+    ex.add_entry(example3);
+
+    test_1.add_entry(ex);
+
+    try {
+        EXPECT_STREQ(test_1["Testing Field"]["Testing Field Three"]["Two"].get_value().c_str(), "Number Two");
+    } catch (JSONFieldDoesNotExist err) {
+        std::cout << err.what() << std::endl;
+        FAIL();
+    }
+}
+
+
+TEST_F(JsonDataTest, ImproperJsonFormat1) {
+    try {
+        test_2 = JsonData("939393");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat2) {
+    try {
+        test_2 = JsonData("\"hello\":\"939393\"");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat3) {
+    try {
+        test_2 = JsonData("{\"hello\":\"939393}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat4) {
+    try {
+        test_2 = JsonData("{2232323}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat5) {
+    try {
+        test_2 = JsonData("{\"hello\":\"939393\",{\"one\":\"two\"},\"g\":\"t\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat6) {
+    try {
+        test_2 = JsonData("{\"hello\":\"939393\",\"x\":\"one\":\"two\",\"g\":\"t\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat7) {
+    try {
+        test_2 = JsonData("{\"hello\":\"939393\",\"x\"{\"one\":\"two\"},\"g\":\"t\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+
+TEST_F(JsonDataTest, ImproperJsonFormat8) {
+    try {
+        test_2 = JsonData("{\"hello\": \"939393\",\"x\":{\"one\":\"two\"},\"g\":\"t\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+
+
+
+
+

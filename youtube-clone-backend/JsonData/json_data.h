@@ -47,6 +47,15 @@ public:
 };
 
 
+class JSONImproperFormat: public std::exception {
+private:
+    std::string return_message;
+public:
+    JSONImproperFormat();
+
+    const char* what();
+};
+
 class JSONFieldDoesNotExist: public std::exception {
 private:
     std::string field_name;
