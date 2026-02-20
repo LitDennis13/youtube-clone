@@ -1,7 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include "../JsonData/json_data.h"
-//{"username":"Username Example","password":"Example Password"}
+
 class JsonDataTest: public testing::Test {
 protected:
     JsonData test_1;
@@ -175,6 +175,45 @@ TEST_F(JsonDataTest, ImproperJsonFormat8) {
     }
 }
 
+TEST_F(JsonDataTest, ImproperJsonFormat9) {
+    try {
+        test_2 = JsonData("{\"a\":1,}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat10) {
+    try {
+        test_2 = JsonData("{a: \"value\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat11) {
+    try {
+        test_2 = JsonData("{'hello': 'world'}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat12) {
+    try {
+        test_2 = JsonData("{\"text\": \"hello\\qworld\"}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, ImproperJsonFormat13) {
+    try {
+        test_2 = JsonData("{\"a\": 1 \"b\": 2}");
+        FAIL();
+    } catch (JSONImproperFormat err) { 
+    }
+}
 
 
 

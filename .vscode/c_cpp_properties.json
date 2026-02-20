@@ -4,7 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "./youtube-clone-backend/build/_deps/googletest-src/googletest/include"
+                "./youtube-clone-backend/Tests/build/_deps/googletest-src/googletest/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

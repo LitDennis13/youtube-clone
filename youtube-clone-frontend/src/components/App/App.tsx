@@ -14,6 +14,17 @@ function test() {
 	const exampleData = {
 		"username" : "Username Example",
 		"password": "Example Password",
+		"epic": {
+			"one": "games",
+			"two": "epic",
+			"three": {
+				"foo": "bar",
+				"baz": {
+					"foo": "bar",
+				}
+			}
+		},
+		"t": "g"
 	};
 	fetch("http://localhost:3490/signin", {...fetchOptionsPOST,
 		headers: {
