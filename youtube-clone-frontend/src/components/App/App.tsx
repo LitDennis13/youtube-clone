@@ -44,12 +44,12 @@ function test() {
 }
 
 function App() {
-    const displayExtendedMenu = DisplayExtendedMenuStore((state) => state.value);
+    const display_extended_menu = DisplayExtendedMenuStore((state) => state.value);
 
 	test();
 
 	return (
-    	<div className={styles.appMain + " " + (displayExtendedMenu.data ? styles.displayExtendedMenu : styles.normal)}>
+    	<div className={styles.appMain + " " + (display_extended_menu.data ? styles.displayExtendedMenu : styles.normal)}>
 			<div className={styles.navigationBar}>
 				<NavigationBar/>
 			</div>

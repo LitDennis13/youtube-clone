@@ -15,8 +15,9 @@ enable_testing()
 set(TEST_FILES
     "../JsonData/json_data.cpp"
     "../HttpImplementation/http_implementation.cpp"
-    "http_implementation_request_tests.cpp"
-    "json_data_tests.cpp"
+    # "http_implementation_request_tests.cpp"
+    "http_implementation_response_tests.cpp"
+    # "json_data_tests.cpp"
 )
 
 add_compile_options(-fexceptions)

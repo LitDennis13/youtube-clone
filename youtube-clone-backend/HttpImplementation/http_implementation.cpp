@@ -355,6 +355,7 @@ std::string HttpResponse::get_content_length() const {
 }
 
 void HttpResponse::set_headers(std::vector<std::pair<HTTPHeader, std::string>> new_headers) {
+    headers.clear();
     headers = new_headers;
 }
 
@@ -370,10 +371,12 @@ std::string HttpResponse::get_response() const {
     std::string response = get_status_line() + CRLF();
     
     for (const std::pair<HTTPHeader, std::string> header : headers) {
-        if (header.first == HTTPHeader::ContentType) {
+        if (header.first == HTTPHeader::ContentLength) {
             response += http_header_to_string(HTTPHeader::ContentLength) + ": " + get_content_length() + CRLF();
         }
-        response += http_header_to_string(header.first) + ": " + header.second + CRLF();
+        else {
+            response += http_header_to_string(header.first) + ": " + header.second + CRLF();
+        }
     }
     response += CRLF() + content;
 

@@ -6,14 +6,14 @@ import { PageOptions } from "./types";
 type UserLoggedIn = {
     value: {
         data: boolean;
-        setUserLoggedIn: (loggedIn: boolean) => void;
+        set_user_logged_in: (loggedIn: boolean) => void;
     }
 };
 
 export const UserLoggedInStore = create<UserLoggedIn>((set) => ({
     value: {
         data: false,
-        setUserLoggedIn: (loggedIn: boolean) => {
+        set_user_logged_in: (loggedIn: boolean) => {
             set((state) => {
                 state.value.data = loggedIn;
                 return {value: {...state.value}};
