@@ -9,7 +9,7 @@ import SubscriptionsPage from './components/SubscriptionsPage/SubscriptionsPage'
 import HistoryPage from './components/HistoryPage/HistoryPage';
 import PlayListsPage from './components/PlayListsPage/PlayListsPage';
 import MyVideosPage from './components/MyVideosPage/MyVideosPage';
-import SignInSignUpPage from './components/SignInSignUpPage/SignInSignUpPage';
+import AuthenticationPage from './components/AuthenticationPage/AuthenticationPage';
 import PageNotFoundPage from './components/PageNotFoundPage/PageNotFoundPage';
 
 import ErrorPage from './components/ErrorPage/ErrorPage';
@@ -43,12 +43,12 @@ const router = createBrowserRouter([
 			element: <PlayListsPage />,
 		},
 		{
-		path: "/my-videos",
-		element: <MyVideosPage />,
+			path: "/my-videos",
+			element: <MyVideosPage />,
 		},
 		{
-		path: "/signin",
-		element: <SignInSignUpPage />,
+			path: "/authentication",
+			element: <AuthenticationPage />,
 		},
 		{
 			path: "*",

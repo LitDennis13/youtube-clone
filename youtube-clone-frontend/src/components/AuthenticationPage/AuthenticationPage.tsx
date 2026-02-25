@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { PageOptions } from "../../types";
 import { SelectedPageStore } from "../../store";
 
-import styles from "./SignInSignUpStyles.module.css";
+import { SignInSignUpInfoType, UserInfoType, sendSignInSignUpInfo } from "../../api/SignInSignUpAPI"
+
+import { fetchOptionsGET, fetchOptionsPOST} from '../fetchOptions';
+
+import styles from "./AuthenticationPageStyles.module.css";
 
 
-function LoginPageSignUp() {
+function AuthenticationPage() {
     const selectedPage = SelectedPageStore((state) => state.value);
     const [displaySignUpPage, setDisplaySignUpPage] = useState(false);
     const [enteredUserName, setEnteredUserName] = useState(true);
@@ -16,6 +21,7 @@ function LoginPageSignUp() {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
     
     useEffect(() => {
         selectedPage.setSelectedPage(PageOptions.SignInSignUp);
@@ -98,4 +104,4 @@ function LoginPageSignUp() {
     );
 }
 
-export default LoginPageSignUp;
+export default AuthenticationPage;

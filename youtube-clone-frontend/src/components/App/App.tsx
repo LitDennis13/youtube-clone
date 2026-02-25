@@ -8,48 +8,12 @@ import Menu from '../Menu/Menu';
 
 import styles from './App.module.css';
 
-import { fetchOptionsGET, fetchOptionsPOST} from '../fetchOptions';
-
-function test() {
-	const exampleData = {
-		"username" : "Username Example",
-		"password": "Example Password",
-		"epic": {
-			"one": "games",
-			"two": "epic",
-			"three": {
-				"foo": "bar",
-				"baz": {
-					"foo": "bar",
-				}
-			}
-		},
-		"t": "g"
-	};
-	fetch("http://localhost:3490/signin", {...fetchOptionsPOST,
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(exampleData),
-	})
-	.then((response) => {
-		return response.text();
-	})
-	.then((data) => {
-		console.log("Data Recieved: " + data);
-	})
-	.catch((error) => {
-		console.error(error);
-	});
-}
 
 function App() {
-    const display_extended_menu = DisplayExtendedMenuStore((state) => state.value);
-
-	test();
+    const displayExtendedMenu = DisplayExtendedMenuStore((state) => state.value);
 
 	return (
-    	<div className={styles.appMain + " " + (display_extended_menu.data ? styles.displayExtendedMenu : styles.normal)}>
+    	<div className={styles.appMain + " " + (displayExtendedMenu.data ? styles.displayExtendedMenu : styles.normal)}>
 			<div className={styles.navigationBar}>
 				<NavigationBar/>
 			</div>

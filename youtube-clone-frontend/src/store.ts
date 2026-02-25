@@ -2,12 +2,11 @@ import { create } from "zustand";
 
 import { PageOptions } from "./types";
 
-
 type UserLoggedIn = {
     value: {
         data: boolean;
         set_user_logged_in: (loggedIn: boolean) => void;
-    }
+    };
 };
 
 export const UserLoggedInStore = create<UserLoggedIn>((set) => ({
@@ -24,9 +23,9 @@ export const UserLoggedInStore = create<UserLoggedIn>((set) => ({
 
 type SelectedPage = {
     value: {
-        page: PageOptions,
-        setSelectedPage: (newPage: PageOptions) => void,
-    }
+        page: PageOptions;
+        setSelectedPage: (newPage: PageOptions) => void;
+    };
 }
 
 export const SelectedPageStore = create<SelectedPage>((set) => ({
@@ -44,9 +43,9 @@ export const SelectedPageStore = create<SelectedPage>((set) => ({
 
 type DisplayExtendedMenu = {
     value: {
-        data: boolean,
-        setDisplayExtendedMenu: (displayExtendedMenu: boolean) => void,
-    }
+        data: boolean;
+        setDisplayExtendedMenu: (displayExtendedMenu: boolean) => void;
+    };
 }
 
 export const DisplayExtendedMenuStore = create<DisplayExtendedMenu>((set) => ({

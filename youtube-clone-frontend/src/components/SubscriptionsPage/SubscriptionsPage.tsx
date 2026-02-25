@@ -27,7 +27,7 @@ function SubscriptionsPage() {
         <div className={Globalstyles.notLoggedInMain}>
             <div className={Globalstyles.signInBox}>
                 <h1>Sign in to see your Subscriptions</h1>
-                <Link to={"/signin"} className={Globalstyles.signInButtonLink}>
+                <Link to={"/authentication"} className={Globalstyles.signInButtonLink}>
                     <button className={NavigationBarStyles.signInButton}>
                         <img src={accountCircleBlue} alt="Account circle" />
                         Sign In
