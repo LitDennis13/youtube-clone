@@ -5,7 +5,7 @@
 
 JsonData parse_json_data(std::string raw_json_data, bool start=false) {
     JsonData return_data;
-    if (start) return_data.set_start(true);
+    return_data.set_start(start);
     bool getting_entry_name = true; // if true it signals we are getting entry name, if false it signals we are getting entry value
     std::string entry_name = "";
 
@@ -50,8 +50,7 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
             character_pointer++;                
         }
         else if (getting_entry_name && raw_json_data[character_pointer] == '\"' && raw_json_data[character_pointer - 1] != '\\') { // getting here means we are at the end of an entry name
-            if (raw_json_data[character_pointer+1] != ':' || 
-                (raw_json_data[character_pointer+2] != '\"' && raw_json_data[character_pointer+2] != '{')) {
+            if (raw_json_data[character_pointer+1] != ':') {
                 throw JSONImproperFormat();
             }
 
@@ -73,13 +72,9 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
                 entry_value.pop_back();
             }
 
-            JsonData new_entry = JsonData();
-            new_entry.set_field_name(entry_name);
-            new_entry.set_field_value(entry_value);
-
+            JsonData new_entry = JsonData(entry_name, entry_value);
             return_data.add_entry(new_entry);
 
-        
             character_pointer += 2;
             if (contains_quote(entry_name) || contains_quote(entry_value) ||
             (raw_json_data[character_pointer - 2] == ',' && raw_json_data[character_pointer - 1] != '\"') || 
@@ -117,11 +112,17 @@ std::ostream &operator<<(std::ostream &out, const JsonData &obj) {
     return out;
 }
 
-JsonData::JsonData(): field_name(""), multi_value(false), start(false) {
+JsonData::JsonData(): field_name(""), multi_value(false), start(true) {
 }
 
-JsonData::JsonData(std::string start_data): field_name(""), multi_value(false), start(false) {
+JsonData::JsonData(std::string start_data): field_name(""), multi_value(false), start(true) {
     *this = parse_json_data(start_data, true);
+}
+
+JsonData::JsonData(std::string new_field_name, JSONValueType new_field_value): field_name(new_field_name), field_value(new_field_value), multi_value(false), start(true) {
+    if (std::holds_alternative<std::vector<JsonData>>(field_value)) {
+        multi_value = true;
+    }
 }
 
 void JsonData::set_start(bool new_start_value) {

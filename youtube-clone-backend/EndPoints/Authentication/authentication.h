@@ -3,7 +3,7 @@
 #include "../../HttpImplementation/http_implementation.h"
 
 
-class SignIn: public EndPointType {
+class Authentication: public EndPointType {
 private:
     using EndPointType::EndPointType;
     void request_headers_to_check(const std::pair<HTTPHeader, std::string> &header) override;

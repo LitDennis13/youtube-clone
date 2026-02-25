@@ -8,8 +8,7 @@ set(SOURCE_FILES
     "JsonData/json_data.cpp"
     "EndPointHandler/end_point_handler.cpp"
     "EndPoints/Root/root.cpp"
-    "EndPoints/SignIn/sign_in.cpp"
-    "EndPoints/SignUp/sign_up.cpp"
+    "EndPoints/Authentication/authentication.cpp"
     "EndPoints/NotFound/not_found.cpp"
 
     "main.cpp"

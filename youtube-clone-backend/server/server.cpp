@@ -110,6 +110,7 @@ void run_server() {
             std::string http_request = std::string(buffer, bytes_in_buffer);
             
             std::string http_response = end_point_handler(http_request);
+            
             send_status = send(new_sock_fd, http_response.c_str(), http_response.size(), 0);
             std::cout << "SENT " << send_status << " Bytes" << std::endl;
             if (send_status == -1) {

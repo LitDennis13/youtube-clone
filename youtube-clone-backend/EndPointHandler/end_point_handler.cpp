@@ -6,8 +6,7 @@
 #include <vector>
 
 #include "../EndPoints/Root/root.h"
-#include "../EndPoints/SignIn/sign_in.h"
-#include "../EndPoints/SignUp/sign_up.h"
+#include "../EndPoints/Authentication/authentication.h"
 
 #include "../EndPoints/NotFound/not_found.h"
 
@@ -101,11 +100,8 @@ std::string end_point_handler(std::string raw_request) {
     if (request_target == "/") {
         end_point = new Root(request, "Root");
     }
-    else if (request_target == "/signin") {
-        end_point = new SignIn(request, "Sign in");
-    }
-    else if (request_target == "/signup") {
-        end_point = new SignUp(request, "Sign up");
+    else if (request_target == "/authentication") {
+        end_point = new Authentication(request, "Authentication");
     }
 
     switch (request.get_method()) {

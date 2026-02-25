@@ -6,13 +6,27 @@ class JsonDataTest: public testing::Test {
 protected:
     JsonData test_1;
     JsonData test_2;
+    JsonData test_3;
+    JsonData test_4;
+    JsonData test_5;
 
     JsonDataTest() {
         test_1 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\"}");
         test_2 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\",\"epic\":{\"one\":\"games\",\"two\":\"epic\",\"three\":{\"foo\":\"bar\",\"baz\":{\"foo\":\"bar\"}}}}");
+        test_3 = JsonData("Test Entry", "example value");
+        test_4 = JsonData("Test Entry 2", (std::vector<JsonData>){test_3});
+        test_5 = JsonData();
     }
 
 };
+
+TEST_F(JsonDataTest, SingleEntryConstructorWorks1) {
+    EXPECT_STREQ(test_3.get_json_as_string().c_str(), "\"Test Entry\":\"example value\"");
+}
+
+TEST_F(JsonDataTest, SingleEntryConstructorWorks2) {
+    EXPECT_STREQ(test_4.get_json_as_string().c_str(), "{\"Test Entry\":\"example value\"}");
+}
 
 TEST_F(JsonDataTest, ProperJsonFormat1) {
     try {
@@ -212,6 +226,22 @@ TEST_F(JsonDataTest, ImproperJsonFormat13) {
         test_2 = JsonData("{\"a\": 1 \"b\": 2}");
         FAIL();
     } catch (JSONImproperFormat err) { 
+    }
+}
+
+TEST_F(JsonDataTest, SupportBooleans) {
+    try {
+        test_5 = JsonData("{\"username\":\"name\",\"password\":\"password\",\"createUser\":false}");
+    } catch (JSONImproperFormat err) {
+        FAIL();
+    }
+}
+
+TEST_F(JsonDataTest, SupportNumbers) {
+    try {
+        test_5 = JsonData("{\"username\":\"name\",\"password\":\"password\",\"test\":32432}");
+    } catch (JSONImproperFormat err) {
+        FAIL();
     }
 }
 
