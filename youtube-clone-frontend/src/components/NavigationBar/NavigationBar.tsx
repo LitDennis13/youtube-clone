@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { UserLoggedInStore, DisplayExtendedMenuStore } from "../../store";
+import { UserDataStore, DisplayExtendedMenuStore } from "../../store";
 
 import styles from "./NavigationBarStyles.module.css";
 
@@ -13,7 +13,7 @@ import accountCircle from "../../images/account circle.svg";
 import uploadIcon from "../../images/upload.svg";
 
 function NavigationBar() {
-    const userLoggedIn = UserLoggedInStore((state) => state.value);
+    const userData = UserDataStore((state) => state.value);
 
     const displayExtendedMenu = DisplayExtendedMenuStore((state) => state.value);
 
@@ -45,8 +45,8 @@ function NavigationBar() {
                 </button>
             </div>
 
-            <div className={styles.rightSection + " " + (userLoggedIn.data ? styles.loggedIn : styles.notLoggedIn)}>
-                {userLoggedIn.data ? 
+            <div className={styles.rightSection + " " + (userData.userLoggedIn ? styles.loggedIn : styles.notLoggedIn)}>
+                {userData.userLoggedIn ? 
                 <div className={styles.loggedInBar}>
                     <Link to={"/my-videos"} className={styles.uploadVideoButtonLink}>
                         <button className={styles.uploadVideoButton}>
@@ -59,7 +59,7 @@ function NavigationBar() {
                     </button>
                 </div>
                 :
-                <Link to={"/signin"} className={styles.signInButtonLink}>
+                <Link to={"/authentication"} className={styles.signInButtonLink}>
                     <button className={styles.signInButton}>
                         <img src={accountCircle} alt="Account circle" />
                         Sign In

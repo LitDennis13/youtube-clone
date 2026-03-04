@@ -3,6 +3,16 @@
 #include "../../HttpImplementation/http_implementation.h"
 
 
+class FetchUserData: public EndPointType {
+private:
+    using EndPointType::EndPointType;
+    void request_headers_to_check(const std::pair<HTTPHeader, std::string> &header) override;
+
+public:
+    void main_function() override;
+};
+
+
 class Authentication: public EndPointType {
 private:
     using EndPointType::EndPointType;

@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../EndPoints/Root/root.h"
-#include "../EndPoints/Authentication/authentication.h"
+#include "../EndPoints/UserData/user_data.h"
 
 #include "../EndPoints/NotFound/not_found.h"
 
@@ -100,7 +100,10 @@ std::string end_point_handler(std::string raw_request) {
     if (request_target == "/") {
         end_point = new Root(request, "Root");
     }
-    else if (request_target == "/authentication") {
+    else if (request_target == "/user_data/fetch_user_data") {
+        end_point = new FetchUserData(request, "FetchUserData");
+    }
+    else if (request_target == "/user_data/authentication") {
         end_point = new Authentication(request, "Authentication");
     }
 

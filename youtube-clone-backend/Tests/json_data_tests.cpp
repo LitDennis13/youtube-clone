@@ -9,13 +9,15 @@ protected:
     JsonData test_3;
     JsonData test_4;
     JsonData test_5;
+    JsonData test_6;
 
     JsonDataTest() {
         test_1 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\"}");
         test_2 = JsonData("{\"username\":\"Username Example\",\"password\":\"Example Password\",\"epic\":{\"one\":\"games\",\"two\":\"epic\",\"three\":{\"foo\":\"bar\",\"baz\":{\"foo\":\"bar\"}}}}");
-        test_3 = JsonData("Test Entry", "example value");
-        test_4 = JsonData("Test Entry 2", (std::vector<JsonData>){test_3});
+        test_3 = JsonData("Test Entry", "example value", true);
+        test_4 = JsonData("Test Entry 2", (std::vector<JsonData>){test_3}, false);
         test_5 = JsonData();
+        test_6 = JsonData("{\"Ex1\":45,\"Ex2\":67,\"Ex3\":\"81\"}");
     }
 
 };
@@ -42,12 +44,29 @@ TEST_F(JsonDataTest, ProperJsonReturnFormat1) {
 TEST_F(JsonDataTest, ProperJsonReturnFormat2) {
     EXPECT_STREQ(test_2.get_json_as_string().c_str(), "{\"username\":\"Username Example\",\"password\":\"Example Password\",\"epic\":{\"one\":\"games\",\"two\":\"epic\",\"three\":{\"foo\":\"bar\",\"baz\":{\"foo\":\"bar\"}}}}");
 }
+TEST_F(JsonDataTest, ProperJsonReturnFormat3) {
+    EXPECT_STREQ(test_6.get_json_as_string().c_str(), "{\"Ex1\":45,\"Ex2\":67,\"Ex3\":\"81\"}");
+}
 
 TEST_F(JsonDataTest, AccessWorks1) {
     EXPECT_STREQ(test_1["username"].get_value().c_str(), "Username Example");
 }
 TEST_F(JsonDataTest, AccessWorks2) {
     EXPECT_STREQ(test_2["epic"]["three"]["baz"]["foo"].get_value().c_str(), "bar");
+}
+TEST_F(JsonDataTest, AccessWorks3) {
+    try {
+        long t = std::stol(test_6["Ex2"]);
+    } catch (std::invalid_argument err) {
+        FAIL();
+    }
+}
+TEST_F(JsonDataTest, AccessWorks4) {
+    try {
+        long t = std::stol(test_1["username"]);
+        FAIL();
+    } catch (std::invalid_argument err) {
+    }
 }
 
 TEST_F(JsonDataTest, AddingEntry1) {
@@ -244,7 +263,6 @@ TEST_F(JsonDataTest, SupportNumbers) {
         FAIL();
     }
 }
-
 
 
 

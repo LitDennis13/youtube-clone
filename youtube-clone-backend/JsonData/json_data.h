@@ -16,11 +16,12 @@ private:
     JSONValueType field_value;
     bool multi_value;
     bool start;
+    bool is_string;
     
 public:
     JsonData();
     JsonData(std::string start_data); // get json data from string
-    JsonData(std::string new_field_name, JSONValueType new_field_value); // single entry constructor
+    JsonData(std::string new_field_name, JSONValueType new_field_value, bool new_is_string); // single entry constructor
 
     void set_start(bool new_start_value);
 
@@ -28,7 +29,9 @@ public:
     void reset_and_set_entries();
 
     std::string get_name() const;
-    std::string get_value() const; 
+    std::string get_value() const;
+
+    void set_is_string(bool new_is_string);
 
     void set_field_name(std::string new_name);
 

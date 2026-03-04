@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { PageOptions } from "../../types";
-import { UserLoggedInStore, SelectedPageStore } from "../../store";
+import { UserDataStore, SelectedPageStore } from "../../store";
 
 import styles from "./MyVideosPage.module.css";
-import Globalstyles from "../../GlobalStyles/GlobalStyles.module.css";
+import Globalstyles from "../../globalStyles/GlobalStyles.module.css";
 import NavigationBarStyles from "../NavigationBar/NavigationBarStyles.module.css";
 
 import accountCircleBlue from "../../images/account circle blue.svg";
 
 function UploadVideoPage() {
-    const userLoggedIn = UserLoggedInStore((state) => state.value);
+    const userData = UserDataStore((state) => state.value);
     const selectedPage = SelectedPageStore((state) => state.value);
     
     useEffect(() => {
@@ -19,7 +19,7 @@ function UploadVideoPage() {
     }, []);
 
     return <>
-        {(userLoggedIn.data ? 
+        {(userData.userLoggedIn ? 
         <div className={styles.LoggedInMain}>
             
         </div>    

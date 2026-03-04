@@ -3,6 +3,7 @@
 #include <vector>
 #include <variant>
 
+
 JsonData parse_json_data(std::string raw_json_data, bool start=false) {
     JsonData return_data;
     return_data.set_start(start);
@@ -66,13 +67,14 @@ JsonData parse_json_data(std::string raw_json_data, bool start=false) {
         else if (!getting_entry_name && (raw_json_data[character_pointer] == ',' || raw_json_data[character_pointer] == '}')
             && (raw_json_data[character_pointer - 1] != '\"' || (raw_json_data[character_pointer - 1] == '\"' && raw_json_data[character_pointer - 2] != '\\'))) { // getting here means we are at the end of an entry value and are ready to move onto a new entry entirely
             getting_entry_name = true;
-
+            bool is_string = false;
             if (entry_value[0] == '\"' && entry_value[entry_value.size() - 1] == '\"') {
                 entry_value.erase(entry_value.begin());
                 entry_value.pop_back();
+                is_string = true;
             }
 
-            JsonData new_entry = JsonData(entry_name, entry_value);
+            JsonData new_entry = JsonData(entry_name, entry_value, is_string);
             return_data.add_entry(new_entry);
 
             character_pointer += 2;
@@ -112,14 +114,14 @@ std::ostream &operator<<(std::ostream &out, const JsonData &obj) {
     return out;
 }
 
-JsonData::JsonData(): field_name(""), multi_value(false), start(true) {
+JsonData::JsonData(): field_name(""), multi_value(false), start(true), is_string(false) {
 }
 
-JsonData::JsonData(std::string start_data): field_name(""), multi_value(false), start(true) {
+JsonData::JsonData(std::string start_data): field_name(""), multi_value(false), start(true), is_string(false) {
     *this = parse_json_data(start_data, true);
 }
 
-JsonData::JsonData(std::string new_field_name, JSONValueType new_field_value): field_name(new_field_name), field_value(new_field_value), multi_value(false), start(true) {
+JsonData::JsonData(std::string new_field_name, JSONValueType new_field_value, bool new_is_string): field_name(new_field_name), field_value(new_field_value), multi_value(false), start(true), is_string(new_is_string) {
     if (std::holds_alternative<std::vector<JsonData>>(field_value)) {
         multi_value = true;
     }
@@ -146,6 +148,10 @@ std::string JsonData::get_value() const {
         throw JSONCannotGetSingleValue(field_name);
     }
     return std::get<std::string>(field_value);
+}
+
+void JsonData::set_is_string(bool new_is_string) {
+    is_string = new_is_string;
 }
 
 void JsonData::set_field_name(std::string new_name) {
@@ -194,11 +200,11 @@ std::string JsonData::get_json_as_string() const {
     else {
         std::string local_field_value = std::get<std::string>(field_value);
         return_string = '\"' + field_name + "\":";
-        try {
-            stoi(local_field_value);
-            return_string += local_field_value;
-        } catch (std::invalid_argument err) {
+        if (is_string) {
             return_string += '\"' + local_field_value + '\"';
+        }
+        else {
+            return_string += local_field_value;
         }
     }
     return return_string;
@@ -258,6 +264,5 @@ const char* JSONCannotGetMultiValue::what() {
     return_message = "The field \"" + error_field_name + "\" is a single value field. Meaning it cannot be used with [].";
     return return_message.c_str();
 }
-
 
 

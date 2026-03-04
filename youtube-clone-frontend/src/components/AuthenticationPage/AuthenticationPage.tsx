@@ -1,36 +1,79 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
-import { PageOptions } from "../../types";
+import { UserData, PageOptions } from "../../types";
 import { SelectedPageStore } from "../../store";
 
-import { SignInSignUpInfoType, UserInfoType, sendSignInSignUpInfo } from "../../api/SignInSignUpAPI"
+import { UserCredentials, authenticate } from "../../api/UserDataAPI"
 
 import { fetchOptionsGET, fetchOptionsPOST} from '../fetchOptions';
 
 import styles from "./AuthenticationPageStyles.module.css";
+import { useUserData } from "../../customHooks/useUserData";
 
 
 function AuthenticationPage() {
     const selectedPage = SelectedPageStore((state) => state.value);
     const [displaySignUpPage, setDisplaySignUpPage] = useState(false);
-    const [enteredUserName, setEnteredUserName] = useState(true);
+    const [enteredUsername, setEnteredUsername] = useState(true);
     const [enteredPassword, setEnteredPassword] = useState(true);
     const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-    const [userName, setUserName] = useState("");
+    const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [displayLoading, setDisplayLoading] = useState(false);
+    const [displayUserDoesNotExist, setDisplayUserDoesNotExist] = useState(false);
+    const [displayIncorrectPassoword, setDisplayIncorrectPassoword] = useState(false);
+
+    const userData = useUserData();
+    
+    
     
     useEffect(() => {
         selectedPage.setSelectedPage(PageOptions.SignInSignUp);
     }, []);
 
+    useEffect(() => {
+        if (!userData.loadingUserData) {
+            switch (userData.data.userStatus) {
+                case -1: {
+                    setDisplayUserDoesNotExist(true);
+                    break;
+                }
+                case 0: {
+                    setDisplayIncorrectPassoword(true);
+                    break;
+                }
+                case 1: {
+                    console.log("other stuff happens");
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+
+        }
+    }, [userData.data, userData.loadingUserData]);
+
+    function authenticateUser() {
+        const userCredentials: UserCredentials = {
+            username: username,
+            password: password,
+            createUser: displaySignUpPage,
+        }
+        userData.authenticateUser(userCredentials);
+    }
+
     function userNameOnInput(event: any) {
-        setUserName(event.target.value);
-        if (!enteredUserName) {
-            setEnteredUserName(true);
+        setUsername(event.target.value);
+        if (!enteredUsername) {
+            setEnteredUsername(true);
+        }
+        if (displayUserDoesNotExist) {
+            setDisplayUserDoesNotExist(false);
         }
     }
 
@@ -42,6 +85,9 @@ function AuthenticationPage() {
         if (!passwordsMatch) {
             setPasswordsMatch(true);
         }
+        if (displayIncorrectPassoword) {
+            setDisplayIncorrectPassoword(false);
+        }
     }
 
     function passwordConfirmOnInput(event: any) {
@@ -52,8 +98,8 @@ function AuthenticationPage() {
     }
 
     function signInSignUpOnClick() {
-        if (userName === "") {
-            setEnteredUserName(false);
+        if (username === "") {
+            setEnteredUsername(false);
         }
         else if (password === "") {
             setEnteredPassword(false);
@@ -62,14 +108,19 @@ function AuthenticationPage() {
             setPasswordsMatch(false);
         }
         else {
-            setUserName("");
+            authenticateUser();
+            setDisplayLoading(true);
+            setUsername("");
             setPassword("");
             setConfirmPassword("");
         }
     }
     
     function SignInSignUpButtonText() {
-        if (!enteredUserName) {
+        if (displayLoading) {
+            return "Loading...";
+        }
+        else if (!enteredUsername) {
             return "Enter Username";
         }
         else if (!enteredPassword) {
@@ -82,7 +133,7 @@ function AuthenticationPage() {
 
     function SwitchPageButtonOnClick() {
         setDisplaySignUpPage(!displaySignUpPage);
-        setEnteredUserName(true);
+        setEnteredUsername(true);
         setEnteredPassword(true);
         setPasswordsMatch(true);
         setConfirmPassword("");
@@ -93,11 +144,13 @@ function AuthenticationPage() {
             <div id={(displaySignUpPage && !passwordsMatch ? styles.signUpExtend : "")} className={styles.main + " " + (displaySignUpPage ? styles.signUp : styles.signIn)}>
                 <h1>Sign {displaySignUpPage ? "Up" : "In"}</h1>
 
-                <input type="text" className={styles.inputUserName} value={userName} placeholder="Username" onInput={(event: any) => userNameOnInput(event)} />
+                <input type="text" className={styles.inputUserName} value={username} placeholder="Username" onInput={(event: any) => userNameOnInput(event)} />
                 <input id={(displaySignUpPage && !passwordsMatch ? styles.passwordNotMatchInput : "")} type="password" className={styles.inputUserPassword} value={password} placeholder="Password" onInput={(event: any) => passwordOnInput(event)} />
                 {displaySignUpPage ? <input id={(!passwordsMatch ? styles.passwordNotMatchInput : "")} type="password" className={styles.inputUserPasswordConfirm} value={confirmPassword} placeholder="Confirm Password" onInput={(event: any) => passwordConfirmOnInput(event)}/> : ""}
-                {(displaySignUpPage && !passwordsMatch) ? <p className={styles.passwordNotMatch}>Passwords do not match</p> : ""}
-                <button className={styles.signInUpButton } onClick={() => signInSignUpOnClick()}>{SignInSignUpButtonText()}</button>
+                {(displaySignUpPage && !passwordsMatch) ? <p className={styles.importantInfo}>Passwords do not match</p> : ""}
+                {(!displaySignUpPage && displayUserDoesNotExist) ? <p className={styles.importantInfo}>User does not exist</p> : ""}
+                {(!displaySignUpPage && displayIncorrectPassoword) ? <p className={styles.importantInfo}>Password Mismatch</p> : ""}
+                <button className={styles.signInUpButton} onClick={() => signInSignUpOnClick()}>{SignInSignUpButtonText()}</button>
                 <button className={styles.switchPageButton} onClick={() => SwitchPageButtonOnClick()}>Switch to Sign {displaySignUpPage ? "In" : "Up"}</button>
             </div>
         </div>

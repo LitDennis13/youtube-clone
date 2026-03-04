@@ -1,23 +1,28 @@
 import { create } from "zustand";
 
-import { PageOptions } from "./types";
+import { UserData, PageOptions } from "./types";
 
-type UserLoggedIn = {
-    value: {
-        data: boolean;
-        set_user_logged_in: (loggedIn: boolean) => void;
-    };
+
+const placeholderUseData: UserData = {
+    userStatus: -1,
+    userID: -1,
+    username: "",
+    userLoggedIn: false,
 };
 
-export const UserLoggedInStore = create<UserLoggedIn>((set) => ({
-    value: {
-        data: false,
-        set_user_logged_in: (loggedIn: boolean) => {
-            set((state) => {
-                state.value.data = loggedIn;
-                return {value: {...state.value}};
-            });
-        },
+type UserDataStoreType = {
+    value: UserData;
+    setUserData: (newUserData: UserData) => void;
+
+};
+
+export const UserDataStore = create<UserDataStoreType>((set) => ({
+    value: placeholderUseData,
+    setUserData: (newUserData: UserData) => {
+        set((state) => {
+            state.value = newUserData;
+            return ({value: {...state.value}});
+        })
     }
 }));
 

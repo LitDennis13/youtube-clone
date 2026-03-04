@@ -1,3 +1,22 @@
+export type UserData = {
+    userStatus: number;
+    userID: number;
+    username: string;
+    userLoggedIn: boolean;
+};
+
+export type JWTToken = {
+    token: string;
+}
+
+export type VideoType = {
+    name: string;
+    channelName: string;
+    views: number;
+    length: number;
+    videoThumbnail: string;
+};
+
 export enum PageOptions {
     SignInSignUp,
     Home,
@@ -8,10 +27,3 @@ export enum PageOptions {
 };
 
 
-export type VideoType = {
-    name: string;
-    channelName: string;
-    views: number;
-    length: number;
-    videoThumbnail: string;
-};
