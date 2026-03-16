@@ -1,0 +1,25 @@
+Date,Region, Sales Rep, Product Category, Product, Units Sold, Unit Price
+2025-01-03,West,Amanda,Electronics,Headphones,5,80
+2025-01-05,East,David,Electronics,Keyboard,3,120
+2025-01-07,North,Sarah,Furniture,Desk,2,350
+2025-01-09,South,Michael,Electronics,Monitor,4,220
+2025-01-10,West,Amanda,Office Supplies,Notebook,10,5
+2025-01-12,East,David,Furniture,Chair,6,90
+2025-01-14,North,Sarah,Electronics,Mouse,8,25
+2025-01-15,South,Michael,Office Supplies,Pen Pack,15,8
+2025-01-18,West,Amanda,Furniture,Desk,1,350
+2025-01-20,East,David,Electronics,Monitor,2,220
+2025-01-22,North,Sarah,Office Supplies,Notebook,12,5
+2025-01-25,South,Michael,Furniture,Chair,3,90
+2025-01-28,West,Amanda,Electronics,Keyboard,4,120
+2025-02-02,East,David,Electronics,Headphones,6,80
+2025-02-04,North,Sarah,Furniture,Desk,2,350
+2025-02-06,South,Michael,Electronics,Mouse,10,25
+2025-02-08,West,Amanda,Office Supplies,Pen Pack,20,8
+2025-02-10,East,David,Furniture,Chair,5,90
+2025-02-12,North,Sarah,Electronics,Monitor,3,220
+2025-02-15,South,Michael,Office Supplies,Notebook,14,5
+2025-02-18,West,Amanda,Electronics,Headphones,7,80
+2025-02-20,East,David,Office Supplies,Pen Pack,18,8
+2025-02-23,North,Sarah,Furniture,Chair,4,90
+2025-02-25,South,Michael,Electronics,Keyboard,3,120

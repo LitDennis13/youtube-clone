@@ -6,6 +6,7 @@ set(SOURCE_FILES
     "server/server.cpp"
     "HttpImplementation/http_implementation.cpp"
     "JsonData/json_data.cpp"
+    "Base64Encode/base_64_encode.cpp"
     "EndPointHandler/end_point_handler.cpp"
     "EndPoints/Root/root.cpp"
     "EndPoints/UserData/user_data.cpp"
