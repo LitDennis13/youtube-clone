@@ -96,3 +96,8 @@ TEST(Base64EncodeTest, CorrectEncoding20) {
 TEST(Base64EncodeTest, CorrectEncoding21) {
     EXPECT_STREQ(base_64_encode("pads!!").c_str(), "cGFkcyEh");
 }
+TEST(Base64EncodeTest, CorrectEncoding22) {
+    EXPECT_STREQ(base_64_encode("{\"username\":\"a name\"}").c_str(), "eyJ1c2VybmFtZSI6ImEgbmFtZSJ9");
+}
+
+

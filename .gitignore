@@ -25,3 +25,6 @@
 # backend build
 /youtube-clone-backend/build
 /youtube-clone-backend/Tests/build
+
+#database
+/youtube-clone-database

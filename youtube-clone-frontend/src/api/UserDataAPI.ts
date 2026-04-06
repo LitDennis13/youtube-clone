@@ -28,6 +28,7 @@ async function fetchUserData(): Promise<void | UserData> {
 
 
 async function authenticate(userCredentials: UserCredentials): Promise<void | JWTToken> {
+    console.log("runs");
     return await fetch("http://localhost:3490/user_data/authentication", {...fetchOptionsPOST,
         headers: {
             "Content-Type": "application/json",

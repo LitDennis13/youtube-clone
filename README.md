@@ -15,4 +15,15 @@
 * cd into the "youtube-clone-backend" folder
 * run the command "./run.sh"
 
+### How to run MySQL Database
+* run "docker compose down -v"
+* run "docker compose up -d"
 
+### How to access MySQL Database from command line
+* Do steps from previous section
+* run "docker exec -it youtube-clone-mysql-database /bin/bash"
+* run "mysql -u root -p"
+* check ".env" file for passwords
+* run "show databases;" to show databases
+* run "use youtube-clone-database"
+* run "show tables;"
