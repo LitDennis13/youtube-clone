@@ -10,7 +10,7 @@
 #include <signal.h>
 
 
-void display_errno_and_exit();
+void display_errno_and_exit_server();
 
 void sigchld_handler(int sig);
 
@@ -43,30 +43,30 @@ void run_server() {
     hints.ai_flags = AI_PASSIVE;
 
     
-    addr_info_status = getaddrinfo(nullptr, PORT.c_str(), &hints, &results);
+    addr_info_status = getaddrinfo(nullptr, SERVER_PORT.c_str(), &hints, &results);
 
     if (addr_info_status != 0) {
-        std::cout << "Get Address Info Error: " << gai_strerror(addr_info_status) << std::endl;
+        std::cout << "Server - Get Address Info Error: " << gai_strerror(addr_info_status) << std::endl;
     }
 
     addrinfo* p = nullptr;
     for (p = results; p != nullptr; p = p->ai_next) {
         sock_fd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
         if (sock_fd == -1) {
-            std::cout << "Error: could not get socket file descriptor" << std::endl;
+            std::cout << "Server - Error: could not get socket file descriptor" << std::endl;
             continue;
         }
 
         set_sock_opt_status = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
         if (set_sock_opt_status == -1) {
-            std::cout << "Error: could not set socket option" << std::endl;
-            display_errno_and_exit();
+            std::cout << "Server - Error: could not set socket option" << std::endl;
+            display_errno_and_exit_server();
         }
 
         bind_status = bind(sock_fd, p->ai_addr, p->ai_addrlen);
         if (bind_status == -1) {
             close(sock_fd);
-            std::cout << "Error: could not bind socket" << std::endl;
+            std::cout << "Server - Error: could not bind socket" << std::endl;
             continue;
         }
         break;
@@ -75,14 +75,14 @@ void run_server() {
     freeaddrinfo(results);
 
     if (p == nullptr) {
-        std::cout << "Error: server could not bind" << std::endl;
-        display_errno_and_exit();
+        std::cout << "Sever - Error: server could not bind" << std::endl;
+        display_errno_and_exit_server();
     }
 
     listen_status = listen(sock_fd, BACK_LOG);
     if (listen_status == -1) {
-        std::cout << "Error: could not listen" << std::endl;
-        display_errno_and_exit();
+        std::cout << "Server - Error: could not listen" << std::endl;
+        display_errno_and_exit_server();
     }
     
     sa.sa_handler = sigchld_handler;
@@ -90,32 +90,36 @@ void run_server() {
     sig_action_status = sigaction(SIGCHLD, &sa, nullptr);
 
     if (sig_action_status == -1) {
-        std::cout << "Error: Sigaction" << std::endl;
-        display_errno_and_exit();
+        std::cout << "Server - Error: Sigaction" << std::endl;
+        display_errno_and_exit_server();
     }
 
     while (true) {
         connected_address_len = (socklen_t)sizeof(sockaddr_storage);
         new_sock_fd = accept(sock_fd, (sockaddr*)&connected_Address, &connected_address_len);
         if (new_sock_fd == -1) {
-            std::cout << "Error: could not accept" << std::endl;
+            std::cout << "Server - Error: could not accept" << std::endl;
         }
 
         if (!fork()) {
             close(sock_fd);
             memset(buffer, 0, BUFFER_LEN);
             bytes_in_buffer = recv(new_sock_fd, &buffer, BUFFER_LEN, 0);
-            if (bytes_in_buffer == 0) std::cout << "Empty Message Recieved" << std::endl;
+            if (bytes_in_buffer == 0) {
+                std::cout << "Server - Empty Message Recieved" << std::endl;
+                close(new_sock_fd);
+                exit(0);
+            }
 
             std::string http_request = std::string(buffer, bytes_in_buffer);
             
             std::string http_response = end_point_handler(http_request);
             
             send_status = send(new_sock_fd, http_response.c_str(), http_response.size(), 0);
-            std::cout << "SENT " << send_status << " Bytes" << std::endl;
+            std::cout << "Server - SENT " << send_status << " Bytes" << std::endl;
             if (send_status == -1) {
-                std::cout << "Error: could not send data" << std::endl;
-                display_errno_and_exit();
+                std::cout << "Server - Error: could not send data" << std::endl;
+                display_errno_and_exit_server();
             }
 
             close(new_sock_fd);
@@ -126,8 +130,8 @@ void run_server() {
 }
 
 
-void display_errno_and_exit() {
-    std::cout << "Errno Code: " << errno << std::endl;
+void display_errno_and_exit_server() {
+    std::cout << "Server - Errno Code: " << errno << std::endl;
     exit(1);
 }
 

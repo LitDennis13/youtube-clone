@@ -2,13 +2,16 @@
 #include "../HttpImplementation/http_implementation.h"
 #include "../JsonData/json_data.h"
 #include "../Server/server.h"
+#include "../MySQLClient/mysql_client.h"
+
 #include <iostream>
 #include <vector>
 
 #include "../EndPoints/Root/root.h"
 #include "../EndPoints/UserData/user_data.h"
-
 #include "../EndPoints/NotFound/not_found.h"
+
+
 
 
 EndPointType::EndPointType(HttpRequest new_request, std::string new_end_point_name): request(new_request), end_point_name(new_end_point_name), response() {
@@ -94,6 +97,12 @@ std::string end_point_handler(std::string raw_request) {
         std::cout << invld_cont_type.what() << std::endl;
         return response.get_response();
     }
+
+    MySQLClient mysql_client;
+    mysql_client.startClient();
+
+    
+    
     
     std::string request_target = request.get_request_target();
     EndPointType* end_point = new NotFound(request, "Not Found");
