@@ -16,7 +16,86 @@ MySQLClient::MySQLClient() {
 
 }
 
-void MySQLClient::startClient() {
+void MySQLClient::hand_shake_packet_parse(char buffer[], const int len) {
+    int bf = 0; // buffer position
+    
+    hand_shake_packet.payload_length = ((int)buffer[bf + 2] << 16) + ((int)buffer[bf + 1] << 8) + ((int)buffer[bf]);
+    bf += 3;
+
+    hand_shake_packet.sequence_id = (int)buffer[bf];
+    bf++;
+    
+    hand_shake_packet.protocol_version = (int)buffer[bf];
+    bf++;
+
+    hand_shake_packet.server_version = "";
+    while (buffer[bf] != 0) {
+        hand_shake_packet.server_version += buffer[bf];
+        bf++;
+    }
+    bf++;
+
+
+    hand_shake_packet.connection_id = ((int)buffer[bf + 3] << 24) + ((int)buffer[bf + 2] << 16) + ((int)buffer[bf + 1] << 8) + ((int)buffer[bf]);
+    bf += 4;
+
+    hand_shake_packet.auth_plugin_data_part_1 = "";
+    while (buffer[bf] != 0) {
+        hand_shake_packet.auth_plugin_data_part_1 += buffer[bf];
+        bf++;
+    }
+    bf++;
+
+
+    hand_shake_packet.capability_flags_1 = ((int)buffer[bf + 1] << 8) + ((int)buffer[bf]);
+    bf += 2;
+
+    hand_shake_packet.character_set = ((int)buffer[bf]);
+    bf++;
+
+    hand_shake_packet.status_flags = ((int)buffer[bf + 1] << 8) + ((int)buffer[bf]);
+    bf += 2;
+
+    hand_shake_packet.capability_flags_2 = ((int)buffer[bf + 1] << 8) + ((int)buffer[bf]);
+    bf += 2;
+
+    hand_shake_packet.auth_plugin_data_length = ((int)buffer[bf]);
+    bf++;
+
+    bf += 10;
+    hand_shake_packet.auth_plugin_data_part_2 = "";
+    
+    int x = bf + hand_shake_packet.auth_plugin_data_length - hand_shake_packet.auth_plugin_data_part_1.length();
+    for (; bf < x; bf++) {
+        hand_shake_packet.auth_plugin_data_part_2 += buffer[bf];
+    }
+
+    hand_shake_packet.auth_plugin_name = "";
+    while (buffer[bf] != 0) {
+        hand_shake_packet.auth_plugin_name += buffer[bf];
+        bf++;
+    }
+    bf++;
+
+    std::cout << hand_shake_packet.auth_plugin_data_part_1.length() + hand_shake_packet.auth_plugin_data_part_2.length() << std::endl;
+    std::cout << "Payload Length: " << hand_shake_packet.payload_length << std::endl;
+    std::cout << "Sequence ID: " << hand_shake_packet.sequence_id << std::endl;
+    std::cout << "Protocol Version: " << hand_shake_packet.protocol_version << std::endl;
+    std::cout << "Server Version: " << hand_shake_packet.server_version << std::endl;
+    std::cout << "Connection ID: " << hand_shake_packet.connection_id << std::endl;
+    std::cout << "Auth Plugin Data Part 1: " << hand_shake_packet.auth_plugin_data_part_1 << std::endl;
+    std::cout << "Cabability Flags 1: " << hand_shake_packet.capability_flags_1 << std::endl;
+    std::cout << "Character Set: " << hand_shake_packet.character_set << std::endl;
+    std::cout << "Status Flags: " << hand_shake_packet.status_flags << std::endl;
+    std::cout << "Cabability Flags 2: " << hand_shake_packet.capability_flags_2 << std::endl;
+    std::cout << "Auth Plugin Data Length: " << hand_shake_packet.auth_plugin_data_length << std::endl;
+    std::cout << "Auth Plugin Data Part 2: " << hand_shake_packet.auth_plugin_data_part_2 << std::endl;
+    std::cout << "Auth Plugin Name: " << hand_shake_packet.auth_plugin_name << std::endl;
+    std::cout << "Payload Length: " << len << std::endl;
+
+}
+
+void MySQLClient::start_client() {
     int yes = 1;
 
     int addr_info_status;
@@ -71,18 +150,17 @@ void MySQLClient::startClient() {
     bytes_in_buffer = recv(sock_fd, &buffer, BUFFER_LEN, 0);
     if (bytes_in_buffer == 0) std::cout << "MySQL Client - Empty Message Recieved" << std::endl;
 
-    std::cout << std::string(buffer, bytes_in_buffer) << std::endl;
+    hand_shake_packet_parse(buffer, bytes_in_buffer);
 
     freeaddrinfo(results);
- 
 }
 
-void MySQLClient::stopClient() {
+void MySQLClient::stop_client() {
     close(sock_fd);
     clientStarted = false;
 }
 
-std::string MySQLClient::sendReqeust(std::string request) {
+std::string MySQLClient::send_reqeust(std::string request) {
     if (!clientStarted) {
         throw MySQLClientNotStarted();
     }

@@ -99,7 +99,7 @@ std::string end_point_handler(std::string raw_request) {
     }
 
     MySQLClient mysql_client;
-    mysql_client.startClient();
+    mysql_client.start_client();
 
     
     
